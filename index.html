@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مُبرمج — تطبيق تعلّم البرمجة بالعربية</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --black:#000; --white:#fff; --gray-50:#fafafa; --gray-100:#f5f5f5;
+    --gray-200:#e5e5e5; --gray-300:#d4d4d4; --gray-500:#737373; --gray-700:#404040;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Segoe UI",Tahoma,Arial,sans-serif;
+    background:var(--white); color:var(--black);
+    line-height:1.8;
+  }
+  /* top bar */
+  .topbar{background:#000;color:#fff;font-size:13px;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .topbar span.dot{display:inline-block;width:8px;height:8px;background:#fff;border-radius:50%;margin-left:8px;vertical-align:middle}
+  header{
+    position:sticky;top:0;z-index:50;background:#fff;border-bottom:3px solid #000;
+    display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:12px;
+  }
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo-mark{width:44px;height:44px;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;border-radius:10px;font-family:monospace}
+  .logo b{font-size:20px}
+  .logo small{display:block;font-size:12px;color:#525252;font-weight:400}
+  nav{display:flex;gap:8px;flex-wrap:wrap}
+  nav button{
+    border:2px solid #000;background:#fff;color:#000;padding:8px 16px;border-radius:999px;
+    font-weight:700;font-size:14px;cursor:pointer;
+  }
+  nav button.active,nav button:hover{background:#000;color:#fff}
+  .progress-wrap{display:flex;align-items:center;gap:10px;font-size:13px;white-space:nowrap}
+  .progress-bar{width:140px;height:10px;border:2px solid #000;border-radius:999px;overflow:hidden;background:#fff}
+  .progress-fill{height:100%;background:#000;width:0%;transition:width .4s}
+  main{max-width:1120px;margin:0 auto;padding:24px 18px 80px}
+  .hero{
+    border:3px solid #000;border-radius:20px;overflow:hidden;display:grid;grid-template-columns:1.1fr .9fr;background:#fff;
+  }
+  .hero-text{padding:36px 32px}
+  .badge{display:inline-block;border:2px solid #000;border-radius:999px;padding:4px 14px;font-size:13px;font-weight:700;margin-bottom:14px;background:#fff}
+  .hero-text h1{font-size:42px;line-height:1.3;margin-bottom:12px}
+  .hero-text h1 .outline{-webkit-text-stroke:1.5px #000;color:transparent}
+  .hero-text p{color:#404040;margin-bottom:20px}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+  .btn{border:2px solid #000;padding:12px 22px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+  .btn-primary{background:#000;color:#fff}
+  .btn-primary:hover{background:#222}
+  .btn-ghost{background:#fff;color:#000}
+  .btn-ghost:hover{background:#f5f5f5}
+  .stats{display:flex;gap:10px;flex-wrap:wrap}
+  .stat{flex:1;min-width:120px;border:2px solid #000;border-radius:12px;padding:10px;text-align:center;background:#fafafa}
+  .stat b{font-size:22px;display:block}
+  .stat span{font-size:12px;color:#525252}
+  .hero-code{background:#000;color:#fff;padding:24px;direction:ltr;text-align:left;font-family:Consolas,Monaco,monospace;font-size:13.5px;position:relative;display:flex;flex-direction:column}
+  .hero-code .win{display:flex;gap:6px;margin-bottom:14px;direction:ltr}
+  .hero-code .win i{width:12px;height:12px;border-radius:50%;background:#fff;display:block}
+  .hero-code .win i:nth-child(2){background:transparent;border:2px solid #fff}
+  .hero-code .win i:nth-child(3){background:transparent;border:2px solid #888}
+  .hero-code pre{white-space:pre-wrap}
+  .kw{color:#fff;font-weight:bold}
+  .cm{color:#a3a3a3}
+  .st{color:#e5e5e5;text-decoration:underline}
+  .fn{color:#fff;background:#222;padding:0 4px;border-radius:4px}
+  .hero-code .runline{margin-top:auto;padding-top:16px;display:flex;gap:8px}
+  .hero-code .runline button{flex:1;border:2px solid #fff;background:#fff;color:#000;border-radius:8px;padding:8px;font-weight:800;cursor:pointer}
+  .hero-code .runline button:last-child{background:transparent;color:#fff}
+  section{margin-top:38px}
+  .sec-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .sec-head h2{font-size:26px}
+  .sec-head p{color:#525252;font-size:14px}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .filters button{border:2px solid #000;background:#fff;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer}
+  .filters button.active{background:#000;color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .card{border:2px solid #000;border-radius:16px;padding:18px;background:#fff;display:flex;flex-direction:column;gap:10px;transition:transform .15s}
+  .card:hover{transform:translateY(-3px);box-shadow:6px 6px 0 #000}
+  .card.done{background:#000;color:#fff}
+  .card.done .meta,.card.done p{color:#d4d4d4}
+  .card.done .tag{background:#fff;color:#000;border-color:#fff}
+  .card-top{display:flex;justify-content:space-between;align-items:center}
+  .num{width:36px;height:36px;border:2px solid currentColor;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-family:monospace}
+  .tag{font-size:12px;border:1.5px solid #000;border-radius:999px;padding:2px 10px;font-weight:700}
+  .card h3{font-size:18px}
+  .card p{font-size:14px;color:#404040}
+  .meta{display:flex;gap:10px;font-size:12px;color:#737373}
+  .card-actions{display:flex;gap:8px;margin-top:auto}
+  .card-actions button{flex:1;border:2px solid #000;border-radius:10px;padding:8px;font-weight:800;cursor:pointer;font-size:14px}
+  .open-btn{background:#000;color:#fff}
+  .card.done .open-btn{background:#fff;color:#000}
+  .try-btn{background:#fff;color:#000}
+  .card.done .try-btn{background:transparent;color:#fff;border-color:#fff}
+  /* editor */
+  .editor-shell{border:3px solid #000;border-radius:18px;overflow:hidden;background:#fff}
+  .editor-tabs{display:flex;background:#000;color:#fff;flex-wrap:wrap}
+  .editor-tabs button{flex:1;background:transparent;color:#fff;border:none;padding:14px;font-weight:800;font-size:15px;cursor:pointer;border-left:1px solid #333}
+  .editor-tabs button.active{background:#fff;color:#000}
+  .editor-body{display:grid;grid-template-columns:1fr 1fr;min-height:380px}
+  .pane{padding:0;display:flex;flex-direction:column}
+  .pane:first-child{border-left:3px solid #000}
+  .pane-head{background:#f5f5f5;border-bottom:2px solid #000;padding:10px 14px;font-weight:800;font-size:14px;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+  .pane-head select{border:2px solid #000;border-radius:8px;padding:4px 8px;font-weight:700}
+  textarea#code{
+    flex:1;min-height:320px;border:none;outline:none;resize:vertical;
+    padding:16px;font-family:Consolas,Monaco,monospace;font-size:14px;line-height:1.7;
+    direction:ltr;text-align:left;background:#fff;color:#000;
+  }
+  .toolbar{display:flex;gap:8px;padding:12px;border-top:2px solid #000;background:#fafafa;flex-wrap:wrap}
+  .toolbar button{border:2px solid #000;border-radius:10px;padding:8px 16px;font-weight:800;cursor:pointer;font-size:14px}
+  #runBtn{background:#000;color:#fff}
+  #clearBtn,#copyBtn{background:#fff}
+  #output{background:#000;color:#fff;font-family:Consolas,monospace;font-size:13.5px;direction:ltr;text-align:left;padding:16px;min-height:200px;flex:1;white-space:pre-wrap;overflow:auto}
+  #preview{width:100%;min-height:200px;flex:1;border:none;background:#fff}
+  .out-ok{color:#fff} .out-err{color:#fff;background:#333;display:block;padding:4px 8px;border-radius:6px;margin:4px 0;border:1px dashed #fff}
+  /* quiz */
+  .quiz-shell{border:3px solid #000;border-radius:18px;padding:24px;background:#fafafa}
+  .q-progress{height:12px;border:2px solid #000;border-radius:999px;background:#fff;overflow:hidden;margin-bottom:16px}
+  #qFill{height:100%;background:#000;width:0%}
+  #qBox h3{font-size:19px;margin-bottom:14px}
+  .opt{display:block;width:100%;text-align:right;border:2px solid #000;background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:10px;font-size:15px;font-weight:600;cursor:pointer}
+  .opt:hover{background:#000;color:#fff}
+  .opt.correct{background:#000;color:#fff}
+  .opt.wrong{background:#fff;color:#000;text-decoration:line-through;opacity:.7}
+  .quiz-foot{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  /* ref */
+  .ref-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .ref{border:2px solid #000;border-radius:14px;padding:14px;background:#fff}
+  .ref code{direction:ltr;display:block;background:#000;color:#fff;padding:8px 10px;border-radius:8px;font-family:monospace;margin:8px 0;font-size:13px}
+  footer{border-top:3px solid #000;padding:22px;text-align:center;font-size:13px;color:#525252;background:#fff}
+  /* modal */
+  .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:18px;z-index:100}
+  .modal-back.show{display:flex}
+  .modal{background:#fff;border:3px solid #000;border-radius:18px;max-width:720px;width:100%;max-height:88vh;overflow:auto;padding:26px}
+  .modal h3{font-size:22px;margin-bottom:8px}
+  .modal p{color:#333;margin-bottom:12px}
+  .modal pre{direction:ltr;text-align:left;background:#000;color:#fff;padding:14px;border-radius:12px;overflow:auto;font-family:Consolas,monospace;font-size:13.5px;margin-bottom:14px}
+  .modal .mrow{display:flex;gap:8px;flex-wrap:wrap}
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .grid{grid-template-columns:1fr}
+    .editor-body{grid-template-columns:1fr}
+    .pane:first-child{border-left:none;border-bottom:3px solid #000}
+    .hero-text h1{font-size:30px}
+    .ref-grid{grid-template-columns:1fr}
+    header{flex-direction:column;align-items:stretch}
+    nav{display:grid;grid-template-columns:repeat(5,1fr)}
+    nav button{padding:8px 4px;font-size:12px}
+    .progress-wrap{justify-content:center}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div><span class="dot"></span> تطبيق عربي ١٠٠٪ — يعمل بدون إنترنت — أسود وأبيض</div>
+  <div id="clock">—</div>
+</div>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">{ }</div>
+    <div><b>مُبرمج</b><small>تعلّم البرمجة من الصفر بالعربية</small></div>
+  </div>
+  <nav id="nav">
+    <button data-go="home" class="active">الرئيسية</button>
+    <button data-go="lessons">الدروس</button>
+    <button data-go="editor">المحرر</button>
+    <button data-go="quiz">الاختبار</button>
+    <button data-go="ref">المرجع</button>
+  </nav>
+  <div class="progress-wrap">
+    <span>تقدمك: <b id="pct">٠٪</b></span>
+    <div class="progress-bar"><div class="progress-fill" id="pfill"></div></div>
+    <button id="resetBtn" title="تصفير التقدم" style="border:2px solid #000;background:#fff;border-radius:8px;padding:4px 10px;cursor:pointer;font-weight:800">↺</button>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <div class="hero" id="home">
+    <div class="hero-text">
+      <span class="badge">✦ أسود × أبيض — واضح ومريح للعين</span>
+      <h1>تعلّم البرمجة <br><span class="outline">سطرًا بسطر</span> بالعربية</h1>
+      <p>١٢ درسًا مبسطًا + محرر أكواد تفاعلي + اختبار شامل + مرجع سريع. احفظ تقدمك تلقائيًا في متصفحك، واطبع شهادتك عند الإتمام.</p>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="go('lessons')">ابدأ الدروس ←</button>
+        <button class="btn btn-ghost" onclick="go('editor')">جرّب المحرر { }</button>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>١٢</b><span>درسًا تفاعليًا</span></div>
+        <div class="stat"><b>١٠</b><span>أسئلة اختبار</span></div>
+        <div class="stat"><b>٢</b><span>لغات تشغيل فوري</span></div>
+      </div>
+    </div>
+    <div class="hero-code">
+      <div class="win"><i></i><i></i><i></i><span style="margin-right:auto;font-size:12px;color:#a3a3a3">main.js — مثال حي</span></div>
+<pre><span class="cm">// مرحباً بك في مُبرمج</span>
+<span class="kw">function</span> <span class="fn">رحّب(اسم)</span> {
+  <span class="kw">return</span> <span class="st">"أهلاً " + اسم + "، هيا نبرمج!"</span>;
+}
+<span class="kw">for</span>(<span class="kw">let</span> i = <span class="st">1</span>; i &lt;= <span class="st">3</span>; i++){
+  console.<span class="fn">log</span>(رحّب(<span class="st">"صديقي"</span>) + <span class="st">" #" </span> + i);
+}</pre>
+      <div class="runline">
+        <button onclick="quickRun()">▶ تشغيل المثال</button>
+        <button onclick="go('editor')">فتح في المحرر</button>
+      </div>
+      <div id="quickOut" style="margin-top:10px;font-size:12.5px;color:#d4d4d4;min-height:20px"></div>
+    </div>
+  </div>
+
+  <!-- LESSONS -->
+  <section id="lessons">
+    <div class="sec-head">
+      <div><h2>◼ الدروس</h2><p>اختر درسًا، اقرأ الشرح، جرّب الكود، ثم علّمه كمكتمل.</p></div>
+      <div style="font-size:13px;border:2px solid #000;border-radius:999px;padding:4px 12px">المكتمل: <b id="doneCount">0 / 12</b></div>
+    </div>
+    <div class="filters" id="filters">
+      <button data-f="all" class="active">الكل</button>
+      <button data-f="أساسيات">أساسيات</button>
+      <button data-f="HTML">HTML</button>
+      <button data-f="CSS">CSS</button>
+      <button data-f="JS">JavaScript</button>
+      <button data-f="بايثون">بايثون</button>
+    </div>
+    <div class="grid" id="lessonGrid"></div>
+  </section>
+
+  <!-- EDITOR -->
+  <section id="editor">
+    <div class="sec-head">
+      <div><h2>◼ محرر الأكواد</h2><p>اكتب الكود وشغّله فورًا. وضع HTML يعرض صفحة حية، ووضع JS يعرض المخرجات.</p></div>
+    </div>
+    <div class="editor-shell">
+      <div class="editor-tabs">
+        <button id="tabJS" class="active" onclick="setMode('js')">JavaScript ◉ تشغيل فوري</button>
+        <button id="tabHTML" onclick="setMode('html')">HTML ◉ معاينة حية</button>
+      </div>
+      <div class="editor-body">
+        <div class="pane">
+          <div class="pane-head">
+            <span>⌨ الكود</span>
+            <select id="exampleSel" onchange="loadExample(this.value)">
+              <option value="">— أمثلة جاهزة —</option>
+              <option value="hello">طبع رسالة</option>
+              <option value="loop">حلقة تكرار</option>
+              <option value="func">دالة تجمع عددين</option>
+              <option value="arr">مصفوفة وفلترة</option>
+              <option value="page">صفحة HTML كاملة</option>
+            </select>
+          </div>
+          <textarea id="code" spellcheck="false"></textarea>
+          <div class="toolbar">
+            <button id="runBtn" onclick="runCode()">▶ تشغيل (Ctrl+Enter)</button>
+            <button id="clearBtn" onclick="clearOut()">مسح المخرجات</button>
+            <button id="copyBtn" onclick="copyCode()">نسخ الكود</button>
+          </div>
+        </div>
+        <div class="pane">
+          <div class="pane-head"><span>◉ المخرجات / المعاينة</span><span id="modeLabel" style="font-size:12px">وحدة التحكم</span></div>
+          <div id="output"></div>
+          <iframe id="preview" style="display:none" sandbox="allow-scripts"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz">
+    <div class="sec-head">
+      <div><h2>◼ الاختبار النهائي</h2><p>١٠ أسئلة بالعربية. تحتاج ٦٠٪ على الأقل للنجاح والحصول على شهادة.</p></div>
+      <button class="btn btn-ghost" onclick="startQuiz()">إعادة الاختبار ↺</button>
+    </div>
+    <div class="quiz-shell">
+      <div class="q-progress"><div id="qFill"></div></div>
+      <div id="qBox"></div>
+      <div class="quiz-foot">
+        <button class="btn btn-primary" id="nextQ" onclick="nextQuestion()" disabled>التالي ←</button>
+        <span id="qScore" style="align-self:center;font-weight:800"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- REF -->
+  <section id="ref">
+    <div class="sec-head"><div><h2>◼ مرجع سريع</h2><p>أهم الأوامر التي ستحتاجها دائمًا.</p></div></div>
+    <div class="ref-grid">
+      <div class="ref"><b>١. طباعة في JavaScript</b><code>console.log("مرحبا بالعالم");</code><span style="font-size:13px;color:#525252">تظهر النتيجة في المخرجات.</span></div>
+      <div class="ref"><b>٢. متغيرات</b><code>let name = "أحمد";&#10;const age = 20;</code><span style="font-size:13px;color:#525252">let تتغير، const ثابتة.</span></div>
+      <div class="ref"><b>٣. شرط if</b><code>if (age &gt;= 18) {&#10;  console.log("بالغ");&#10;} else {&#10;  console.log("صغير");&#10;}</code></div>
+      <div class="ref"><b>٤. حلقة for</b><code>for (let i=1; i&lt;=5; i++) {&#10;  console.log(i);&#10;}</code></div>
+      <div class="ref"><b>٥. هيكل HTML</b><code>&lt;h1&gt;عنوان&lt;/h1&gt;&#10;&lt;p&gt;فقرة&lt;/p&gt;&#10;&lt;button&gt;اضغط&lt;/button&gt;</code></div>
+      <div class="ref"><b>٦. تنسيق CSS</b><code>h1 { color: black; }&#10;.box { border: 2px solid black; }</code><span style="font-size:13px;color:#525252">في هذا التطبيق: أسود وأبيض فقط!</span></div>
+    </div>
+  </section>
+
+  <!-- CERT -->
+  <section id="cert" style="text-align:center">
+    <div style="border:3px dashed #000;border-radius:18px;padding:28px;background:#fff">
+      <h2 style="font-size:24px">✦ شهادة الإتمام ✦</h2>
+      <p style="color:#525252">أكمل ١٢ درسًا واجتز الاختبار، ثم اطبع شهادتك</p>
+      <div style="display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="printCert()">🖨 طباعة الشهادة</button>
+        <button class="btn btn-ghost" onclick="exportCode()">⬇ تصدير آخر كود</button>
+      </div>
+      <p id="certMsg" style="margin-top:10px;font-weight:800"></p>
+    </div>
+  </section>
+</main>
+
+<footer>صُنع بحب لتعليم البرمجة بالعربية — أسود × أبيض — يعمل أوفلاين بالكامل © ٢٠٢٦</footer>
+
+<!-- MODAL -->
+<div class="modal-back" id="modalBack" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <span id="mTag" class="tag">درس</span>
+      <button onclick="closeModal()" style="border:2px solid #000;background:#fff;border-radius:8px;padding:4px 12px;font-weight:900;cursor:pointer">✕ إغلاق</button>
+    </div>
+    <h3 id="mTitle"></h3>
+    <p id="mDesc"></p>
+    <pre id="mCode"></pre>
+    <div class="mrow">
+      <button class="btn btn-primary" onclick="tryInEditor()">جرّب في المحرر ←</button>
+      <button class="btn btn-ghost" id="mDoneBtn" onclick="toggleDone()">✓ تعليم كمكتمل</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const LESSONS = [
+ {id:1,cat:"أساسيات",title:"ما هي البرمجة؟",time:"٥ دقائق",desc:"البرمجة هي إعطاء أوامر للحاسوب بلغة يفهمها. مثل وصفة طبخ: خطوات مرتبة تنفذ بالترتيب.",code:'// أول برنامج لك\nconsole.log("مرحباً بالعالم");\nconsole.log("أنا أتعلم البرمجة!");'},
+ {id:2,cat:"أساسيات",title:"المتغيرات",time:"٨ دقائق",desc:"المتغير صندوق نحفظ فيه قيمة. let للمتغير الذي يتغير، const للثابت.",code:'let الاسم = "سارة";\nlet العمر = 15;\nconst بلد = "المغرب";\nconsole.log("اسمي " + الاسم + " وعمري " + العمر);'},
+ {id:3,cat:"أساسيات",title:"الشروط if",time:"٨ دقائق",desc:"نستخدم if لاتخاذ قرار حسب شرط. مثال: إذا كانت الدرجة عالية نطبع ممتاز.",code:'let درجة = 85;\nif (درجة >= 90) {\n  console.log("ممتاز!");\n} else if (درجة >= 60) {\n  console.log("ناجح");\n} else {\n  console.log("راسب - حاول مجدداً");\n}'},
+ {id:4,cat:"أساسيات",title:"الحلقات والتكرار",time:"١٠ دقائق",desc:"الحلقة تكرر أمرًا عدة مرات بدل كتابته يدويًا.",code:'for (let i = 1; i <= 5; i++) {\n  console.log("تكرار رقم " + i);\n}'},
+ {id:5,cat:"HTML",title:"أول صفحة HTML",time:"١٠ دقائق",desc:"HTML هي هيكل الصفحة: عناوين وفقرات وأزرار. جرّب المثال في وضع HTML.",code:'<h1>مرحباً! موقعي الأول</h1>\n<p>هذه أول فقرة أكتبها بلغة HTML.</p>\n<button>اضغط عليّ</button>'},
+ {id:6,cat:"HTML",title:"الروابط والصور والقوائم",time:"١٠ دقائق",desc:"تعلّم أهم الوسوم لبناء صفحة حقيقية.",code:'<h2>هواياتي</h2>\n<ul>\n  <li>البرمجة</li>\n  <li>القراءة</li>\n  <li>كرة القدم</li>\n</ul>\n<a href="https://example.com">موقعي المفضل</a>'},
+ {id:7,cat:"CSS",title:"التنسيق بـ CSS",time:"١٢ دقيقة",desc:"CSS يجمّل الصفحة: ألوان وحدود ومسافات. هنا نلتزم بالأسود والأبيض.",code:'<style>\nh1 { text-align: center; border: 3px solid black; }\n.box { border: 2px solid black; padding: 12px; }\n</style>\n<h1>عنوان أنيق</h1>\n<div class="box">صندوق بحدود سوداء</div>'},
+ {id:8,cat:"JS",title:"الدوال Functions",time:"١٢ دقيقة",desc:"الدالة آلة صغيرة: تدخل قيمًا وتخرج نتيجة. نعيد استخدامها بدل التكرار.",code:'function جمع(a, b) {\n  return a + b;\n}\nconsole.log(جمع(5, 3)); // 8\nconsole.log(جمع(10, 20)); // 30'},
+ {id:9,cat:"JS",title:"المصفوفات Arrays",time:"١٢ دقيقة",desc:"المصفوفة قائمة تحفظ عدة قيم معًا.",code:'let فواكه = ["تفاح", "موز", "برتقال"];\nconsole.log(فواكه[0]); // تفاح\nفواكه.push("عنب");\nconsole.log("العدد: " + فواكه.length);'},
+ {id:10,cat:"JS",title:"الكائنات Objects",time:"١٢ دقيقة",desc:"الكائن يصف شيئًا بخصائص: اسم وعمر ومهارة.",code:'let طالب = { name: "علي", age: 16, skill: "JS" };\nconsole.log(طالب.name);\nطالب.age = 17;\nconsole.log("العمر الجديد: " + طالب.age);'},
+ {id:11,cat:"بايثون",title:"مدخل إلى بايثون",time:"١٠ دقائق",desc:"بايثون لغة سهلة تشبه العربية الإنجليزية المبسطة. قارنها مع JavaScript.",code:'# بايثون\nprint("مرحباً بالعالم")\nname = "ليلى"\nif 15 > 10:\n    print("15 أكبر")\n# يقابلها في JS:\n# console.log("مرحباً");'},
+ {id:12,cat:"بايثون",title:"مشروعك الأول: آلة حاسبة",time:"١٥ دقيقة",desc:"مشروع ختامي يجمع كل ما تعلمت: متغيرات ودوال وشروط.",code:'function آلة_حاسبة(a, op, b) {\n  if (op === "+") return a + b;\n  if (op === "-") return a - b;\n  if (op === "*") return a * b;\n  if (op === "/") return a / b;\n}\nconsole.log(آلة_حاسبة(10, "+", 5));\nconsole.log(آلة_حاسبة(10, "*", 5));'},
+];
+const QUIZ = [
+ {q:"ماذا يطبع: console.log(2 + 3) ؟",o:["5","23","خطأ","لا شيء"],a:0},
+ {q:"أي كلمة تُستخدم لمتغير يتغير؟",o:["const","let","var الثابتة","function"],a:1},
+ {q:"ما هو وسم العنوان الكبير في HTML؟",o:["<p>","<h1>","<a>","<div>"],a:1},
+ {q:"ماذا تفعل حلقة for؟",o:["تكرر الأوامر","تحذف الملفات","توقف الحاسوب","تترجم النص"],a:0},
+ {q:"نتيجة: if (10 > 5) تطبع؟",o:["الشرط صحيح","الشرط خطأ","لا يحدث شيء","عطل"],a:0},
+ {q:"كيف نعرّف دالة في JavaScript؟",o:["function جمع() {}","def جمع():","دالة جمع","create جمع"],a:0},
+ {q:"ما طول المصفوفة [1,2,3,4] ؟",o:["3","4","5","0"],a:1},
+ {q:"في بايثون، كيف نطبع؟",o:['print("hi")','echo "hi"','console.log("hi")','write hi'],a:0},
+ {q:"أي خاصية CSS تصنع حدودًا؟",o:["border","colorful","sound","jump"],a:0},
+ {q:"ما هي البرمجة باختصار؟",o:["إعطاء أوامر مرتبة للحاسوب","لعب كرة القدم","تصليح السيارات","الطبخ فقط"],a:0},
+];
+const EXAMPLES = {
+ hello:'// طباعة رسالة\nconsole.log("مرحباً بالعالم!");\nconsole.log("أهلاً بك في مُبرمج");',
+ loop:'// حلقة تكرار\nfor (let i = 1; i <= 10; i++) {\n  console.log("العدد: " + i);\n}',
+ func:'// دالة تجمع عددين\nfunction جمع(a, b) {\n  return a + b;\n}\nconsole.log("5 + 7 = " + جمع(5, 7));',
+ arr:'// مصفوفة وفلترة\nlet أرقام = [1,2,3,4,5,6];\nlet زوجية = أرقام.filter(n => n % 2 === 0);\nconsole.log(زوجية);',
+ page:'<h1 style="text-align:center">موقعي الأول 🖤</h1>\n<p style="text-align:center">صُنع بواسطة طالب مُبرمج</p>\n<div style="border:3px solid black;padding:16px;text-align:center">\n  <button onclick="alert(\'أحسنت!\')">اضغط عليّ</button>\n</div>'
+};
+let done = JSON.parse(localStorage.getItem("mubarmij_done")||"[]");
+let mode = "js";
+let currentFilter = "all";
+let currentLesson = null;
+let qi=0, score=0, locked=false;
+
+function ar(n){return n.toString().replace(/\d/g,d=>"٠١٢٣٤٥٦٧٨٩"[d]);}
+function updateProgress(){
+  const p = Math.round(done.length/12*100);
+  document.getElementById("pfill").style.width = p+"%";
+  document.getElementById("pct").textContent = ar(p)+"٪";
+  document.getElementById("doneCount").textContent = ar(done.length)+" / "+ar(12);
+  const cm = document.getElementById("certMsg");
+  if(done.length===12) cm.textContent = "🎉 أكملت كل الدروس! اطبع شهادتك الآن.";
+  else cm.textContent = "تبقى "+ar(12-done.length)+" دروس على الشهادة.";
+}
+function renderLessons(){
+  const g = document.getElementById("lessonGrid");
+  g.innerHTML = "";
+  LESSONS.filter(l=>currentFilter==="all"||l.cat===currentFilter).forEach(l=>{
+    const is = done.includes(l.id);
+    const d = document.createElement("div");
+    d.className = "card"+(is?" done":"");
+    d.innerHTML = '<div class="card-top"><div class="num">'+ar(l.id)+'</div><span class="tag">'+l.cat+'</span></div>'
+      +'<h3>'+(is?"✓ ":"")+l.title+'</h3><p>'+l.desc+'</p>'
+      +'<div class="meta"><span>⏱ '+l.time+'</span><span>◉ تفاعلي</span></div>'
+      +'<div class="card-actions"><button class="open-btn">فتح الدرس</button><button class="try-btn">تجربة سريعة</button></div>';
+    d.querySelector(".open-btn").onclick = ()=>openLesson(l.id);
+    d.querySelector(".try-btn").onclick = ()=>{ openLesson(l.id); };
+    g.appendChild(d);
+  });
+}
+function openLesson(id){
+  currentLesson = LESSONS.find(l=>l.id===id);
+  document.getElementById("mTag").textContent = currentLesson.cat+" • "+currentLesson.time;
+  document.getElementById("mTitle").textContent = ar(currentLesson.id)+". "+currentLesson.title;
+  document.getElementById("mDesc").textContent = currentLesson.desc;
+  document.getElementById("mCode").textContent = currentLesson.code;
+  document.getElementById("mDoneBtn").textContent = done.includes(id) ? "✓ مكتمل — إلغاء الإتمام" : "✓ تعليم كمكتمل";
+  document.getElementById("modalBack").classList.add("show");
+}
+function closeModal(){document.getElementById("modalBack").classList.remove("show");}
+function toggleDone(){
+  if(!currentLesson) return;
+  if(done.includes(currentLesson.id)) done = done.filter(x=>x!==currentLesson.id);
+  else done.push(currentLesson.id);
+  localStorage.setItem("mubarmij_done",JSON.stringify(done));
+  updateProgress(); renderLessons();
+  document.getElementById("mDoneBtn").textContent = done.includes(currentLesson.id) ? "✓ مكتمل — إلغاء الإتمام" : "✓ تعليم كمكتمل";
+}
+function tryInEditor(){
+  if(!currentLesson) return;
+  const code = currentLesson.code;
+  closeModal();
+  if(/<[a-z]/i.test(code)) setMode("html"); else setMode("js");
+  document.getElementById("code").value = code;
+  go("editor"); runCode();
+}
+function setMode(m){
+  mode = m;
+  document.getElementById("tabJS").classList.toggle("active",m==="js");
+  document.getElementById("tabHTML").classList.toggle("active",m==="html");
+  document.getElementById("output").style.display = m==="js"?"block":"none";
+  document.getElementById("preview").style.display = m==="html"?"block":"none";
+  document.getElementById("modeLabel").textContent = m==="js"?"وحدة التحكم":"معاينة حية";
+  if(m==="html" && !/<[a-z]/i.test(document.getElementById("code").value)) document.getElementById("code").value = EXAMPLES.page;
+  if(m==="js" && /<[a-z][\s\S]*>/i.test(document.getElementById("code").value) && document.getElementById("code").value.includes("<h1")) document.getElementById("code").value = EXAMPLES.hello;
+}
+function loadExample(k){ if(k&&EXAMPLES[k]){ document.getElementById("code").value = EXAMPLES[k]; if(k==="page") setMode("html"); } }
+function log(msg,cls){
+  const o = document.getElementById("output");
+  const d = document.createElement("div");
+  d.className = cls||"out-ok"; d.textContent = msg;
+  o.appendChild(d); o.scrollTop = o.scrollHeight;
+}
+function runCode(){
+  const code = document.getElementById("code").value;
+  localStorage.setItem("mubarmij_last",code);
+  if(mode==="html"){
+    document.getElementById("preview").srcdoc = code;
+    return;
+  }
+  const o = document.getElementById("output");
+  o.innerHTML = "";
+  const orig = console.log, origE = console.error;
+  console.log = (...a)=>log(a.map(x=>typeof x==="object"?JSON.stringify(x):String(x)).join(" "));
+  console.error = (...a)=>log("خطأ: "+a.join(" "),"out-err");
+  try{
+    const fn = new Function(code);
+    const r = fn();
+    if(r!==undefined) log("↩ النتيجة: "+r);
+    if(!o.children.length) log("(تم التنفيذ بدون مخرجات — استخدم console.log)");
+  }catch(e){ log("خطأ: "+e.message,"out-err"); }
+  console.log = orig; console.error = origE;
+}
+function clearOut(){document.getElementById("output").innerHTML="";}
+function copyCode(){navigator.clipboard?.writeText(document.getElementById("code").value); alert("تم نسخ الكود!");}
+function quickRun(){
+  try{
+    let out=[];
+    const clog=(...a)=>out.push(a.join(" "));
+    const fn = new Function("console", 'function رحّب(اسم){ return "أهلاً " + اسم + "، هيا نبرمج!"; }\nfor(let i=1;i<=3;i++){ console.log(رحّب("صديقي") + " #" + i); }');
+    fn({log:clog});
+    document.getElementById("quickOut").textContent = "▶ " + out.join(" | ");
+  }catch(e){document.getElementById("quickOut").textContent = e.message;}
+}
+function go(id){
+  document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("active",b.dataset.go===id));
+}
+document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>go(b.dataset.go));
+document.querySelectorAll("#filters button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#filters button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); currentFilter=b.dataset.f; renderLessons();
+});
+document.getElementById("resetBtn").onclick=()=>{ if(confirm("تصفير كل التقدم؟")){done=[];localStorage.removeItem("mubarmij_done");updateProgress();renderLessons();} };
+document.getElementById("code").addEventListener("keydown",e=>{ if((e.ctrlKey||e.metaKey)&&e.key==="Enter") runCode(); });
+/* quiz */
+function startQuiz(){qi=0;score=0;locked=false;showQ();}
+function showQ(){
+  locked=false;
+  const box=document.getElementById("qBox");
+  document.getElementById("nextQ").disabled=true;
+  if(qi>=QUIZ.length){
+    const pct=Math.round(score/QUIZ.length*100);
+    const ok=pct>=60;
+    document.getElementById("qFill").style.width="100%";
+    box.innerHTML='<h3>'+(ok?"🎉 ناجح! أحسنت":"📚 لم تنجح بعد — حاول مجددًا")+'</h3>'
+      +'<p>نتيجتك: <b>'+ar(score)+' / '+ar(QUIZ.length)+'</b> ('+ar(pct)+'٪)</p>'
+      +(ok?'<p>يمكنك الآن طباعة الشهادة من الأسفل.</p>':'<p>راجع الدروس ثم أعد المحاولة.</p>');
+    document.getElementById("qScore").textContent = "النقاط: "+ar(score);
+    if(ok){ let d=JSON.parse(localStorage.getItem("mubarmij_done")||"[]"); }
+    return;
+  }
+  const q=QUIZ[qi];
+  document.getElementById("qFill").style.width=(qi/QUIZ.length*100)+"%";
+  document.getElementById("qScore").textContent="سؤال "+ar(qi+1)+" من "+ar(QUIZ.length)+" • النقاط: "+ar(score);
+  let h='<h3>'+ar(qi+1)+". "+q.q+'</h3>';
+  q.o.forEach((op,i)=>{h+='<button class="opt" onclick="answer('+i+')">'+op+'</button>';});
+  box.innerHTML=h;
+}
+function answer(i){
+  if(locked) return; locked=true;
+  const q=QUIZ[qi];
+  const btns=document.querySelectorAll(".opt");
+  btns.forEach((b,bi)=>{
+    if(bi===q.a) b.classList.add("correct");
+    else if(bi===i) b.classList.add("wrong");
+    b.style.pointerEvents="none";
+  });
+  if(i===q.a){score++;}
+  document.getElementById("nextQ").disabled=false;
+  document.getElementById("qScore").textContent="سؤال "+ar(qi+1)+" من "+ar(QUIZ.length)+" • النقاط: "+ar(score);
+}
+function nextQuestion(){qi++;showQ();}
+function printCert(){
+  const pct=Math.round(done.length/12*100);
+  const w=window.open("","_blank");
+  w.document.write('<html dir="rtl" lang="ar"><head><meta charset="utf-8"><title>شهادة</title></head><body style="font-family:Tahoma;text-align:center;padding:60px;border:10px double black;margin:20px">'
+   +'<h1>شهادة إتمام 🎓</h1><p>تشهد منصة <b>مُبرمج</b> بأن الطالب</p><h2>________________</h2>'
+   +'<p>أكمل '+done.length+' / 12 درسًا في تعلم البرمجة بالعربية</p><p>التاريخ: '+new Date().toLocaleDateString("ar")+'</p>'
+   +'<p>التوقيع: مُبرمج — أسود × أبيض</p><script>window.print()<\/script></body></html>');
+}
+function exportCode(){
+  const blob=new Blob([document.getElementById("code").value],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="my-code.txt";a.click();
+}
+setInterval(()=>{document.getElementById("clock").textContent=new Date().toLocaleString("ar",{weekday:"long",day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"});},1000);
+(function init(){
+  document.getElementById("code").value = localStorage.getItem("mubarmij_last")||EXAMPLES.hello;
+  updateProgress(); renderLessons(); startQuiz(); setMode("js");
+})();
+</script>
+</body>
+</html>
