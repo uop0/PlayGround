@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🛡️ بايثون شيلد | تشفير PY + ذكاء اصطناعي</title>
+<style>
+:root{--bg:#000;--green:#00ff41;--blue:#00c8ff;--panel:#050505;--border:#0f3d1a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--green);font-family:'Segoe UI',Tahoma,Arial,sans-serif;min-height:100vh}
+a{color:var(--blue)}
+header{border-bottom:2px solid var(--green);padding:16px;text-align:center;background:radial-gradient(ellipse at top,#02120a,#000);position:sticky;top:0;z-index:10}
+header h1{font-size:1.6rem;text-shadow:0 0 12px var(--green)}
+header p{color:var(--blue);font-size:.9rem;margin-top:4px}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+nav button{background:#000;border:1px solid var(--green);color:var(--green);padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:bold}
+nav button.on,nav button:hover{background:var(--green);color:#000;box-shadow:0 0 12px var(--green)}
+main{max-width:1000px;margin:auto;padding:16px}
+.card{background:var(--panel);border:1px solid var(--green);border-radius:12px;padding:16px;margin:14px 0;box-shadow:0 0 18px #003311}
+.card.blue{border-color:var(--blue);box-shadow:0 0 18px #003344}
+.card h2{margin-bottom:10px;font-size:1.2rem}
+.card h2 .b{color:var(--blue)}
+label{display:block;margin:8px 0 4px;font-weight:bold}
+textarea,input,select{width:100%;background:#000;color:var(--green);border:1px solid var(--green);border-radius:8px;padding:10px;font-family:Consolas,monospace;font-size:14px}
+textarea{min-height:150px;resize:vertical}
+textarea.out{color:var(--blue);border-color:var(--blue);min-height:120px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+button.act{background:var(--green);color:#000;border:none;padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer;font-size:15px}
+button.act:hover{box-shadow:0 0 14px var(--green)}
+button.alt{background:#000;color:var(--blue);border:1px solid var(--blue);padding:10px 20px;border-radius:8px;font-weight:bold;cursor:pointer}
+button.alt:hover{background:var(--blue);color:#000}
+.msg{margin-top:10px;padding:10px;border-radius:8px;display:none;white-space:pre-wrap}
+.msg.ok{display:block;border:1px solid var(--green)}
+.msg.err{display:block;border:1px solid #f00;color:#f66}
+.finding{border:1px solid var(--blue);border-radius:8px;padding:10px;margin:8px 0}
+.finding b{color:var(--blue)}
+.badge{display:inline-block;background:var(--green);color:#000;padding:2px 10px;border-radius:20px;font-size:.8rem;font-weight:bold}
+.price{font-size:1.4rem;color:var(--blue);font-weight:bold;text-shadow:0 0 10px var(--blue)}
+footer{text-align:center;padding:20px;color:var(--blue);border-top:1px solid var(--green);margin-top:20px}
+footer a{font-weight:bold;font-size:1.1rem}
+.hidden{display:none}
+.stats{color:var(--blue);font-size:.85rem;margin-top:6px}
+.matrix{opacity:.5;font-size:.75rem;text-align:center;color:var(--green)}
+@media(max-width:600px){header h1{font-size:1.2rem}}
+</style>
+</head>
+<body>
+<header>
+<h1>🛡️ بايثون شيلد <span style="color:var(--blue)">CYBER SHIELD</span></h1>
+<p>تشفير ملفات PY • مساعد AI لحل المشاكل • قسم مدفوع • استضافة مجانية</p>
+<nav>
+<button data-tab="enc" class="on">🔒 التشفير</button>
+<button data-tab="ai">🤖 مساعد AI</button>
+<button data-tab="vip">💎 القسم المدفوع</button>
+<button data-tab="host">☁️ الاستضافة</button>
+<button data-tab="contact">📞 تواصل</button>
+</nav>
+</header>
+<main>
+<!-- التشفير -->
+<section id="tab-enc" class="card">
+<h2>🔒 تشفير ملفات <span class="b">بايثون (PY)</span> <span class="badge">سريع وقوي</span></h2>
+<label>📄 الصق كود البايثون هنا:</label>
+<textarea id="inCode" placeholder="مثال:&#10;print('مرحبا بالعالم')&#10;for i in range(5):&#10;    print(i)"></textarea>
+<div class="row">
+<div style="flex:1;min-width:140px"><label>🔑 مفتاح التشفير:</label><input id="encKey" value="FFQPU"></div>
+<div style="flex:1;min-width:140px"><label>⚡ مستوى التشفير:</label>
+<select id="encLevel"><option value="light">خفيف (سريع)</option><option value="medium">متوسط</option><option value="strong" selected>قوي 🛡️ (موصى به)</option></select></div>
+</div>
+<div class="row">
+<button class="act" onclick="doEncrypt()">⚡ تشفير الآن</button>
+<button class="alt" onclick="copyOut('outCode')">📋 نسخ الناتج</button>
+<button class="alt" onclick="downloadOut()">⬇️ تحميل .py</button>
+<input type="file" id="fileUp" accept=".py,.txt" style="display:none" onchange="loadFile(event)">
+<button class="alt" onclick="document.getElementById('fileUp').click()">📂 رفع ملف PY</button>
+</div>
+<label>✅ الكود المشفّر (جاهز للتشغيل):</label>
+<textarea id="outCode" class="out" readonly placeholder="الناتج سيظهر هنا..."></textarea>
+<div class="stats" id="encStats"></div>
+<div class="msg" id="encMsg"></div>
+</section>
+
+<!-- AI -->
+<section id="tab-ai" class="card blue hidden">
+<h2>🤖 مساعد <span class="b">الذكاء الاصطناعي</span> لحل مشاكل الكود</h2>
+<label>📄 الكود الذي فيه مشكلة:</label>
+<textarea id="aiCode" placeholder="الصق الكود هنا..."></textarea>
+<label>⚠️ رسالة الخطأ (اختياري — الصق الـ Traceback):</label>
+<textarea id="aiErr" style="min-height:80px" placeholder="مثال: NameError: name 'x' is not defined"></textarea>
+<div class="row"><button class="act" onclick="doDiagnose()">🔍 تشخيص وإصلاح</button></div>
+<div id="aiRes"></div>
+</section>
+
+<!-- VIP -->
+<section id="tab-vip" class="card hidden">
+<h2>💎 القسم <span class="b">المدفوع</span> — صُنّاع الأدوات</h2>
+<p>اشترك مرة واحدة واحصل على: <b>مولّد أدوات AI مدفوعة + تشفير تلقائي + استضافة مجانية داخل التطبيق.</b></p>
+<p class="price">💰 السعر: 5 عملات آسياسيل فقط</p>
+<div class="row"><span class="badge" id="vipStatus">🔒 غير مفعّل</span></div>
+<label>🧾 رقم إيصال التحويل (آسياسيل) أو كود التفعيل (FFQPU-XXXXXXXX):</label>
+<input id="vipCode" placeholder="مثال: 123456 أو FFQPU-1A2B3C4D">
+<div class="row">
+<button class="act" onclick="doActivate()">✅ تفعيل الاشتراك</button>
+<a href="https://t.me/FFQPU" target="_blank"><button class="alt">📩 إرسال الإيصال للمطور @FFQPU</button></a>
+</div>
+<div class="msg" id="vipMsg"></div>
+<hr style="border-color:var(--green);margin:14px 0">
+<h2>🏭 مولّد الأدوات المدفوعة <span class="b">(AI Builder)</span></h2>
+<label>📝 صف أداتك بالعربية:</label>
+<textarea id="toolDesc" style="min-height:80px" placeholder="مثال: أداة فحص روابط تحفظ النتائج في ملف..."></textarea>
+<div class="row">
+<button class="act" onclick="doBuildTool(false)">🏭 توليد الأداة</button>
+<button class="alt" onclick="doBuildTool(true)">🏭 + تشفير تلقائي</button>
+<button class="alt" onclick="copyOut('toolOut')">📋 نسخ</button>
+</div>
+<textarea id="toolOut" class="out" readonly placeholder="كود الأداة المولّدة سيظهر هنا (للمشتركين فقط)..."></textarea>
+<div class="msg" id="toolMsg"></div>
+</section>
+
+<!-- hosting -->
+<section id="tab-host" class="card blue hidden">
+<h2>☁️ الاستضافة <span class="b">المجانية</span> داخل التطبيق</h2>
+<p>ارفع أدواتك المشفّرة واحصل على رابط تحميل مباشر. <b>(للمشتركين: 5 عملات آسياسيل)</b></p>
+<label>📛 اسم الملف:</label><input id="hostName" value="my_tool">
+<label>📄 الكود (مشفر أو عادي):</label><textarea id="hostCode" placeholder="الصق الكود هنا..."></textarea>
+<div class="row"><button class="act" onclick="doHost()">🚀 نشر / استضافة</button><button class="alt" onclick="loadFiles()">🔄 تحديث القائمة</button></div>
+<div class="msg" id="hostMsg"></div>
+<div id="fileList"></div>
+</section>
+
+<!-- contact -->
+<section id="tab-contact" class="card hidden">
+<h2>📞 تواصل مع <span class="b">المطوّر</span></h2>
+<p>👨‍💻 المطوّر: <b>@FFQPU</b></p>
+<p>📱 التطبيق: <b>(App) بايثون شيلد</b></p>
+<p>💰 الاشتراك المدفوع: <b>5 عملات آسياسيل</b> — أرسل لقطة التحويل + رقم الإيصال ليصلك كود التفعيل.</p>
+<div class="row">
+<a href="https://t.me/FFQPU" target="_blank"><button class="act">💬 مراسلة المطور @FFQPU</button></a>
+</div>
+<p class="matrix">01011001 01001111 01010101 00100000 01000001 01010010 01000101 00100000 01010011 01000001 01000110 01000101</p>
+</section>
+</main>
+<footer>🛡️ بايثون شيلد © 2026 — أسود × <span style="color:var(--green)">أخضر</span> × <span style="color:var(--blue)">أزرق</span> سايبر | المطور <a href="https://t.me/FFQPU">@FFQPU</a></footer>
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+['enc','ai','vip','host','contact'].forEach(t=>$('tab-'+t).classList.add('hidden'));
+$('tab-'+b.dataset.tab).classList.remove('hidden');});
+async function api(p,d){const r=await fetch(p,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});const j=await r.json();if(!r.ok&&!j.msg&&!j.error)throw new Error('خطأ شبكة');return {s:r.ok,j};}
+function show(id,ok,txt){const e=$(id);e.className='msg '+(ok?'ok':'err');e.textContent=txt;}
+async function doEncrypt(){show('encMsg',true,'⏳ جارٍ التشفير...');
+try{const{s,j}=await api('/api/encrypt',{code:$('inCode').value,key:$('encKey').value,level:$('encLevel').value});
+if(s){$('outCode').value=j.encrypted;$('encStats').textContent=`⚡ تم في ${j.ms}ms | الداخل: ${j.stats.in} حرف | الخارج: ${j.stats.out} حرف | النسبة: ${j.stats.ratio}x`;show('encMsg',true,'✅ تم التشفير بنجاح — الملف الناتج قابل للتشغيل مباشرة.');}
+else show('encMsg',false,'❌ '+j.error);}catch(e){show('encMsg',false,'❌ '+e.message);}}
+function copyOut(id){const t=$(id);t.select();document.execCommand('copy');navigator.clipboard&&navigator.clipboard.writeText(t.value);}
+function downloadOut(){const b=new Blob([$('outCode').value],{type:'text/x-python'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='encrypted_shield.py';a.click();}
+function loadFile(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>$('inCode').value=r.result;r.readAsText(f);}
+async function doDiagnose(){$('aiRes').innerHTML='⏳ يحلل الذكاء الاصطناعي الكود...';
+try{const{s,j}=await api('/api/diagnose',{code:$('aiCode').value,error:$('aiErr').value});
+$('aiRes').innerHTML=j.findings.map(f=>`<div class="finding"><b>${f.title}</b><br>${f.detail}<br>🛠️ <b>الحل:</b> ${f.fix}</div>`).join('')+`<p class="stats">${j.tip}</p>`;}catch(e){$('aiRes').textContent='❌ '+e.message;}}
+async function doActivate(){try{const{s,j}=await api('/api/activate',{code:$('vipCode').value,receipt:$('vipCode').value});
+show('vipMsg',s,j.msg);checkStatus();}catch(e){show('vipMsg',false,'❌ '+e.message);}}
+async function checkStatus(){try{const r=await fetch('/api/status');const j=await r.json();
+$('vipStatus').textContent=j.active?'💎 مفعّل — مشترك ذهبي':'🔒 غير مفعّل';}catch(e){}}
+async function doBuildTool(enc){try{const{s,j}=await api('/api/build-tool',{description:$('toolDesc').value,encrypt:enc,key:'FFQPU'});
+if(s){$('toolOut').value=j.tool;show('toolMsg',true,'✅ تم توليد أداتك المدفوعة بنجاح!');}
+else show('toolMsg',false,'❌ '+(j.error||j.msg));}catch(e){show('toolMsg',false,'❌ '+e.message);}}
+async function doHost(){try{const{s,j}=await api('/api/host',{filename:$('hostName').value,code:$('hostCode').value});
+if(s){show('hostMsg',true,'✅ تم النشر! رابط التحميل: '+location.origin+j.url);loadFiles();}
+else show('hostMsg',false,'❌ '+(j.error||'خطأ'));}catch(e){show('hostMsg',false,'❌ '+e.message);}}
+async function loadFiles(){try{const r=await fetch('/api/files');const j=await r.json();
+$('fileList').innerHTML='<h3>📁 الملفات المستضافة:</h3>'+(j.files.map(f=>`<p>📄 <a href="/hosted/${f}" target="_blank">${f}</a></p>`).join('')||'<p>لا توجد ملفات بعد.</p>');}catch(e){}}
+checkStatus();loadFiles();
+</script>
+</body>
+</html>
