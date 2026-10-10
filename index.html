@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>نظام الإبلاغ عن حسابات تيك توك</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #000;
+    color: #fff;
+    font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+    min-height: 100vh;
+  }
+  .layout { display: flex; min-height: 100vh; }
+  /* Side log screen */
+  aside {
+    width: 320px;
+    background: #050505;
+    border-left: 1px solid #222;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  aside h2 { font-size: 18px; margin: 0 0 4px; color: #fff; }
+  aside p.sub { font-size: 13px; color: #aaa; margin: 0 0 10px; line-height: 1.7; }
+  #logList { display: flex; flex-direction: column; gap: 10px; overflow-y: auto; max-height: 60vh; }
+  .log-card {
+    background: #111;
+    border: 1px solid #262626;
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .log-card b { color: #fff; }
+  .log-card span { color: #bbb; }
+  .clear-btn {
+    background: transparent; color: #888; border: 1px solid #333;
+    border-radius: 10px; padding: 8px; cursor: pointer; font-size: 13px;
+  }
+  .clear-btn:hover { color: #fff; border-color: #555; }
+  /* Main */
+  main { flex: 1; padding: 32px 20px; display: flex; justify-content: center; }
+  .card {
+    width: 100%; max-width: 560px;
+    background: linear-gradient(180deg, #0d0d0d, #050505);
+    border: 1px solid #222;
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 0 40px rgba(255,255,255,0.06);
+    height: fit-content;
+  }
+  h1 { margin: 0 0 6px; font-size: 24px; text-align: center; }
+  .subtitle { text-align: center; color: #999; font-size: 14px; margin-bottom: 20px; line-height: 1.8; }
+  label { display: block; font-size: 14px; margin: 14px 0 6px; color: #ddd; }
+  input, select, textarea {
+    width: 100%; background: #000; color: #fff;
+    border: 1px solid #333; border-radius: 12px;
+    padding: 12px; font-size: 14px; outline: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #fff; }
+  textarea { resize: vertical; min-height: 80px; }
+  .btn {
+    width: 100%; margin-top: 16px; padding: 14px;
+    border-radius: 14px; border: 1px solid #fff;
+    background: #fff; color: #000; font-size: 16px; font-weight: bold; cursor: pointer;
+  }
+  .btn.secondary { background: #000; color: #fff; border-color: #444; font-weight: normal; font-size: 14px; }
+  .btn:hover { opacity: 0.9; }
+  .steps {
+    margin-top: 18px; background: #0a0a0a; border: 1px solid #222;
+    border-radius: 14px; padding: 14px 16px; font-size: 14px; line-height: 2; display: none;
+  }
+  .notice {
+    margin-top: 16px; font-size: 12.5px; color: #999; line-height: 1.9;
+    background: #080808; border: 1px dashed #333; border-radius: 12px; padding: 12px;
+  }
+  .telegram {
+    display: block; text-align: center; margin-top: 18px; padding: 12px;
+    background: #000; border: 1px solid #333; border-radius: 12px;
+    color: #fff; text-decoration: none; font-size: 14px;
+  }
+  .telegram:hover { border-color: #fff; }
+  @media (max-width: 800px) {
+    .layout { flex-direction: column; }
+    aside { width: 100%; order: 2; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+  <main>
+    <div class="card">
+      <h1>نظام الإبلاغ عن حسابات تيك توك</h1>
+      <div class="subtitle">أداة توجيه للتبليغ الرسمي فقط — بدون إرسال تلقائي وبدون تكرار وهمي للبلاغات</div>
+
+      <label for="link">رابط الحساب</label>
+      <input id="link" type="url" placeholder="مثال: https://www.tiktok.com/@username" dir="ltr" />
+
+      <label for="type">نوع البلاغ</label>
+      <select id="type">
+        <option value="انتحال شخصية">انتحال شخصية</option>
+        <option value="محتوى مسيء أو مضايقة">محتوى مسيء أو مضايقة</option>
+        <option value="احتيال أو نصب">احتيال أو نصب</option>
+        <option value="خطاب كراهية">خطاب كراهية</option>
+        <option value="عري أو محتوى جنسي">عري أو محتوى جنسي</option>
+        <option value="انتهاك حقوق النشر">انتهاك حقوق النشر</option>
+        <option value="حساب وهمي / سبام">حساب وهمي / سبام</option>
+        <option value="أخرى">أخرى</option>
+      </select>
+
+      <label for="details">شرح إضافي (اختياري)</label>
+      <textarea id="details" placeholder="اكتب سبب البلاغ الحقيقي باختصار..."></textarea>
+
+      <button class="btn" onclick="prepareReport()">عرض خطوات التبليغ الرسمية</button>
+      <button class="btn secondary" onclick="openOfficial()">فتح صفحة تيك توك الرسمية للتبليغ</button>
+
+      <div id="steps" class="steps"></div>
+
+      <div class="notice">
+        تنبيه مهم: هذا التطبيق لا يرسل بلاغات تلقائية ولا يكرر البلاغات.
+        بلاغ واحد صادق عبر القنوات الرسمية لتيك توك هو الطريقة الصحيحة.
+        إساءة استخدام التبليغ أو البلاغات الجماعية الكاذبة قد تعرض حسابك للعقوبة.
+        استخدم هذه الأداة فقط للمحتوى الذي يخالف فعلاً إرشادات مجتمع تيك توك.
+      </div>
+
+      <a class="telegram" href="https://t.me/FFQPU" target="_blank" rel="noopener">التواصل مع المطور عبر تيليجرام: @FFQPU</a>
+    </div>
+  </main>
+
+  <aside>
+    <h2>سجل البلاغات</h2>
+    <p class="sub">سجل محلي فقط لخطوات التوجيه التي قمت بها من جهازك — وليس إرسالاً فعلياً إلى تيك توك.</p>
+    <div id="logList"></div>
+    <button class="clear-btn" onclick="clearLog()">مسح السجل</button>
+  </aside>
+</div>
+
+<script>
+  function loadLog() {
+    try { return JSON.parse(localStorage.getItem('tt_log') || '[]'); }
+    catch(e) { return []; }
+  }
+  function saveLog(l) { localStorage.setItem('tt_log', JSON.stringify(l)); }
+  function renderLog() {
+    const list = document.getElementById('logList');
+    const logs = loadLog();
+    list.innerHTML = '';
+    if (!logs.length) {
+      list.innerHTML = '<div class="log-card"><span>لا توجد بلاغات بعد.</span></div>';
+      return;
+    }
+    logs.slice().reverse().forEach(function(item) {
+      const d = document.createElement('div');
+      d.className = 'log-card';
+      d.innerHTML = '<b>الرابط:</b> <span dir="ltr">' + escapeHtml(item.link) + '</span><br>' +
+        '<b>النوع:</b> <span>' + escapeHtml(item.type) + '</span><br>' +
+        '<b>التاريخ:</b> <span>' + escapeHtml(item.date) + '</span><br>' +
+        '<b>الحالة:</b> <span>تم التوجيه للتبليغ الرسمي</span>';
+      list.appendChild(d);
+    });
+  }
+  function escapeHtml(s) {
+    return String(s||'').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function validTikTokLink(v) {
+    return /tiktok\.com\//i.test(v);
+  }
+  function prepareReport() {
+    const link = document.getElementById('link').value.trim();
+    const type = document.getElementById('type').value;
+    const details = document.getElementById('details').value.trim();
+    if (!link) { alert('يرجى إدخال رابط الحساب'); return; }
+    if (!validTikTokLink(link)) { alert('يرجى إدخال رابط تيك توك صحيح'); return; }
+    const steps = document.getElementById('steps');
+    steps.style.display = 'block';
+    steps.innerHTML =
+      '1. افتح الرابط وتأكد أنه الحساب الصحيح.<br>' +
+      '2. داخل تطبيق تيك توك: افتح صفحة الحساب ← زر المشاركة / النقاط الثلاث ← <b>إبلاغ</b>.<br>' +
+      '3. اختر نوع البلاغ: <b>' + escapeHtml(type) + '</b>.<br>' +
+      (details ? '4. أضف هذا الوصف عند التبليغ: ' + escapeHtml(details) + '<br>5. أرسل بلاغاً واحداً فقط وانتظر مراجعة تيك توك.'
+               : '4. أرسل بلاغاً واحداً فقط وانتظر مراجعة تيك توك.');
+    const logs = loadLog();
+    logs.push({ link: link, type: type, date: new Date().toLocaleString('ar') });
+    saveLog(logs);
+    renderLog();
+  }
+  function openOfficial() {
+    window.open('https://www.tiktok.com/legal/report', '_blank');
+  }
+  function clearLog() { saveLog([]); renderLog(); }
+  renderLog();
+</script>
+</body>
+</html>
