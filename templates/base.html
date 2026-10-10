@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlackScript | @FFQPU{% if tool %} — {{ tool.ar }}{% endif %}{% block title %}{% endblock %}</title>
+  <meta name="description" content="BlackScript | @FFQPU — أدوات أونلاين سريعة، آمنة، مجانية 100% وبدون تسجيل. Base64, JSON, Hash, UUID, Password, QR, Python." />
+  <meta name="author" content="@FFQPU" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/logo.svg') }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['class', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          colors: {
+            void: '#0a0a0a', panel: '#111111', card: '#161616',
+            neon: '#00ff9d', violet2: '#a855f7', blue2: '#3b82f6',
+          },
+          fontFamily: {
+            cairo: ['Cairo','Tajawal','sans-serif'],
+            mono: ['"JetBrains Mono"','monospace'],
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  {% block head %}{% endblock %}
+</head>
+<body class="font-cairo">
+
+  <!-- ══ Loading Screen ══ -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="BlackScript" class="loader-logo" />
+      <div class="loader-name">Black<span>Script</span></div>
+      <div class="loader-bar"><span></span></div>
+      <div class="loader-sub">@FFQPU</div>
+    </div>
+  </div>
+
+  <!-- custom cursor -->
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+
+  <!-- ══ Announcement bar ══ -->
+  <div class="announce" role="status">
+    <span class="announce-text">BlackScript v1.0 — Developed by @FFQPU ✦ أدوات عربية سريعة ومجانية ✦ BlackScript v1.0 — Developed by @FFQPU</span>
+  </div>
+
+  <!-- ══ Header ══ -->
+  <header class="site-header glass">
+    <a href="{{ url_for('index') }}" class="logo-wrap">
+      <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="BlackScript logo" class="logo-img" />
+      <span class="logo-word">Black<b>Script</b></span>
+      <span class="badge badge-version pulse-neon">v1.0</span>
+      <span class="badge badge-online"><span class="dot"></span> Online</span>
+    </a>
+    <nav class="header-nav">
+      <a href="{{ url_for('index') }}" class="nav-link"><i class="fa-solid fa-house"></i> الرئيسية</a>
+      <a href="https://t.me/FFQPU" target="_blank" rel="noopener" class="nav-link nav-tg"><i class="fa-brands fa-telegram"></i> @FFQPU</a>
+      <button id="theme-btn" class="theme-btn" title="تبديل المظهر" aria-label="تبديل المظهر">
+        <i class="fa-solid fa-sun" id="theme-icon"></i>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ══ Marquee badges bar ══ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {% for item in MARQUEE_ITEMS %}
+        <span class="mq-badge"><i class="fa-solid fa-bolt"></i> {{ item }}</span>
+      {% endfor %}
+      {% for item in MARQUEE_ITEMS %}
+        <span class="mq-badge"><i class="fa-solid fa-bolt"></i> {{ item }}</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <main class="page-wrap">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ══ Footer ══ -->
+  <footer class="site-footer glass">
+    <div class="footer-inner">
+      <!-- BlackScript — Developed by @FFQPU -->
+      <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="BlackScript" class="footer-logo" />
+      <p class="footer-made">BlackScript — Developed by <a href="https://t.me/FFQPU" target="_blank" rel="noopener">@FFQPU</a></p>
+      <a class="footer-badge" href="https://t.me/FFQPU" target="_blank" rel="noopener"><i class="fa-brands fa-telegram"></i> @FFQPU</a>
+      <p class="footer-copy">© {{ SITE.year }} BlackScript · مجاني 100% · بدون تسجيل</p>
+    </div>
+  </footer>
+
+  <!-- ══ Floating Telegram ══ -->
+  <a href="https://t.me/FFQPU" target="_blank" rel="noopener" class="tg-float" title="Telegram @FFQPU" aria-label="Telegram @FFQPU">
+    <i class="fa-brands fa-telegram"></i>
+  </a>
+
+  <!-- toast -->
+  <div id="toast" class="toast" role="alert"></div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

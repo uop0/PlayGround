@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="tool-hero glass">
+  <span class="badge {{ tool.badge_class }}">{{ tool.badge }}</span>
+  <h1><i class="{{ tool.icon }}"></i> {{ tool.ar }}</h1>
+  <p class="tool-en font-mono">{{ tool.en }}</p>
+  <p>{{ tool.desc }} <small>(تخزين مؤقت داخل الذاكرة — للعرض فقط)</small></p>
+</section>
+<section class="tool-box glass">
+  <label class="lbl">الرابط الطويل</label>
+  <input id="url-in" class="inp mono-ltr" dir="ltr" placeholder="https://example.com/very/long/link" />
+  <div class="row">
+    <button class="btn btn-neon" onclick="doShorten()"><i class="fa-solid fa-link"></i> اختصار الرابط</button>
+    <button class="btn btn-mini" onclick="copyText('url-out')"><i class="fa-solid fa-copy"></i> نسخ</button>
+  </div>
+  <label class="lbl">الرابط المختصر</label>
+  <input id="url-out" class="inp mono-ltr" dir="ltr" readonly placeholder="…" />
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+async function doShorten(){
+  const url = document.getElementById('url-in').value;
+  if(!url.trim()) return toast('أدخل الرابط أولاً ⚠️', 'warn');
+  const r = await api('/api/shorten', {url});
+  if(r.ok){ document.getElementById('url-out').value = r.result; autoCopy(r.result); }
+  else toast(r.error || 'خطأ', 'error');
+}
+</script>
+{% endblock %}

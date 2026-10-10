@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="tool-hero glass">
+  <span class="badge {{ tool.badge_class }}">{{ tool.badge }}</span>
+  <h1><i class="{{ tool.icon }}"></i> {{ tool.ar }}</h1>
+  <p class="tool-en font-mono">{{ tool.en }}</p>
+  <p>{{ tool.desc }}</p>
+</section>
+<section class="tool-box glass">
+  <label class="lbl">عنوان IP (اتركه فارغاً لفحص عنوانك الحالي)</label>
+  <input id="ip-in" class="inp mono-ltr" dir="ltr" placeholder="8.8.8.8" />
+  <div class="row">
+    <button class="btn btn-neon" onclick="doIp()"><i class="fa-solid fa-network-wired"></i> فحص IP</button>
+  </div>
+  <div id="ip-out" class="ip-grid"></div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+async function doIp(){
+  const ip = document.getElementById('ip-in').value;
+  const box = document.getElementById('ip-out');
+  box.innerHTML = '<span class="hint">جارٍ الفحص…</span>';
+  const r = await api('/api/ip', {ip});
+  if(!r.ok){ box.innerHTML = ''; return toast(r.error || 'خطأ', 'error'); }
+  box.innerHTML = `
+    <div class="kv"><span>العنوان</span><b class="font-mono" dir="ltr">${escapeHtml(r.ip)}</b></div>
+    <div class="kv"><span>الإصدار</span><b>${escapeHtml(r.version)}</b></div>
+    <div class="kv"><span>عام؟</span><b>${r.is_global ? 'نعم 🌍' : 'لا'}</b></div>
+    <div class="kv"><span>خاص؟</span><b>${r.is_private ? 'نعم 🏠' : 'لا'}</b></div>
+    <div class="kv"><span>DNS عكسي</span><b class="font-mono" dir="ltr">${escapeHtml(r.reverse_dns||'—')}</b></div>
+    <div class="kv"><span>الشبكة التقريبية</span><b class="font-mono" dir="ltr">${escapeHtml(r.network_hint||'—')}</b></div>`;
+  toast('تم فحص IP ✓', 'ok');
+}
+</script>
+{% endblock %}

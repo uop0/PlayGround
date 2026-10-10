@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="tool-hero glass">
+  <span class="badge {{ tool.badge_class }}">{{ tool.badge }}</span>
+  <h1><i class="{{ tool.icon }}"></i> {{ tool.ar }}</h1>
+  <p class="tool-en font-mono">{{ tool.en }}</p>
+  <p>{{ tool.desc }}</p>
+</section>
+<section class="tool-box glass">
+  <label class="lbl">النص / المدخل</label>
+  <textarea id="b64-in" class="inp mono-ltr" rows="5" placeholder="اكتب أو الصق النص هنا…"></textarea>
+  <div class="row">
+    <button class="btn btn-neon" onclick="doBase64('encode')"><i class="fa-solid fa-lock"></i> تشفير Encode</button>
+    <button class="btn btn-ghost" onclick="doBase64('decode')"><i class="fa-solid fa-lock-open"></i> فك التشفير Decode</button>
+    <button class="btn btn-mini" onclick="copyText('b64-out')"><i class="fa-solid fa-copy"></i> نسخ</button>
+    <button class="btn btn-mini" onclick="clearAll(['b64-in','b64-out'])"><i class="fa-solid fa-eraser"></i> مسح</button>
+  </div>
+  <label class="lbl">النتيجة <span class="hint">(نسخ تلقائي عند النجاح)</span></label>
+  <textarea id="b64-out" class="inp mono-ltr" rows="5" readonly placeholder="النتيجة ستظهر هنا…"></textarea>
+  <button class="btn btn-mini" onclick="copyText('b64-out')"><i class="fa-solid fa-copy"></i> نسخ النتيجة</button>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+async function doBase64(mode){
+  const text = document.getElementById('b64-in').value;
+  if(!text.trim()) return toast('أدخل النص أولاً ⚠️', 'warn');
+  const r = await api('/api/base64', {text, mode});
+  if(r.ok){ document.getElementById('b64-out').value = r.result; autoCopy(r.result); }
+  else toast(r.error || 'خطأ', 'error');
+}
+</script>
+{% endblock %}

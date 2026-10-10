@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="tool-hero glass">
+  <span class="badge {{ tool.badge_class }}">{{ tool.badge }}</span>
+  <h1><i class="{{ tool.icon }}"></i> {{ tool.ar }}</h1>
+  <p class="tool-en font-mono">{{ tool.en }}</p>
+  <p>{{ tool.desc }}</p>
+</section>
+<section class="tool-box glass">
+  <label class="lbl">كود JSON الخام</label>
+  <textarea id="json-in" class="inp mono-ltr" rows="7" dir="ltr" placeholder='{"name": "BlackScript", "by": "@FFQPU"}'></textarea>
+  <div class="row">
+    <label class="lbl inline">المسافة:
+      <select id="json-indent" class="inp inline-inp">
+        <option value="2" selected>2</option><option value="4">4</option><option value="0">مضغوط</option>
+      </select>
+    </label>
+    <button class="btn btn-neon" onclick="doJson()"><i class="fa-solid fa-check"></i> تنسيق وتحقق</button>
+    <button class="btn btn-mini" onclick="copyText('json-out')"><i class="fa-solid fa-copy"></i> نسخ</button>
+    <button class="btn btn-mini" onclick="clearAll(['json-in','json-out'])"><i class="fa-solid fa-eraser"></i> مسح</button>
+  </div>
+  <div id="json-status" class="status"></div>
+  <label class="lbl">النتيجة المنسقة</label>
+  <pre id="json-out" class="code-out mono-ltr" dir="ltr">…</pre>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+async function doJson(){
+  const text = document.getElementById('json-in').value;
+  const indent = document.getElementById('json-indent').value;
+  const st = document.getElementById('json-status');
+  if(!text.trim()) return toast('الصق كود JSON أولاً ⚠️', 'warn');
+  const r = await api('/api/json', {text, indent});
+  if(r.ok){
+    document.getElementById('json-out').textContent = r.result;
+    st.innerHTML = '<span class="ok-pill"><i class="fa-solid fa-circle-check"></i> JSON صالح ✓</span>';
+    autoCopy(r.result); toast('JSON صالح وتم تنسيقه ✓', 'ok');
+  } else {
+    st.innerHTML = '<span class="err-pill"><i class="fa-solid fa-circle-xmark"></i> ' + escapeHtml(r.error||'خطأ') + '</span>';
+    toast(r.error || 'JSON غير صالح', 'error');
+  }
+}
+</script>
+{% endblock %}

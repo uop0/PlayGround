@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero glass" id="hero">
+  <div class="hero-glow g1"></div>
+  <div class="hero-glow g2"></div>
+  <div class="hero-glow g3"></div>
+  <div class="hero-inner">
+    <div class="hero-badges">
+      <span class="badge badge-new">New ⚡</span>
+      <span class="badge badge-fast">Fast 🚀</span>
+      <span class="badge badge-featured">Featured ✦</span>
+    </div>
+    <h1 class="hero-title">Black<span>Script</span></h1>
+    <p class="hero-sub">منصّة أدوات عربية فاخرة — سريعة · آمنة · مجانية 100% · بدون تسجيل</p>
+    <div class="hero-actions">
+      <a href="#grid" class="btn btn-neon"><i class="fa-solid fa-wand-magic-sparkles"></i> استكشف الأدوات</a>
+      <a href="https://t.me/FFQPU" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fa-brands fa-telegram"></i> @FFQPU</a>
+    </div>
+    <!-- search -->
+    <div class="search-wrap">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="tool-search" type="search" placeholder="ابحث عن أداة… (base64, json, qr…)" autocomplete="off" />
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ GRID ═══════ -->
+<section id="grid" class="grid-section">
+  <h2 class="section-title"><i class="fa-solid fa-layer-group"></i> كل الأدوات <span class="count" id="tool-count">{{ TOOLS|length }}</span></h2>
+  <div class="tools-grid" id="tools-grid">
+    {% for t in TOOLS %}
+    <a href="{{ url_for('tool_page', slug=t.slug) }}" class="tool-card glass color-{{ t.color }}" data-search="{{ t.ar }} {{ t.en }} {{ t.slug }}">
+      <span class="badge {{ t.badge_class }} card-badge">{{ t.badge }}</span>
+      <div class="tool-icon"><i class="{{ t.icon }}"></i></div>
+      <h3>{{ t.ar }}</h3>
+      <p class="tool-en font-mono">{{ t.en }}</p>
+      <p class="tool-desc">{{ t.desc }}</p>
+      <span class="tool-go">افتح الأداة <i class="fa-solid fa-arrow-left"></i></span>
+    </a>
+    {% endfor %}
+  </div>
+  <p id="no-result" class="no-result hidden">لا توجد نتائج مطابقة 😕 جرّب كلمة أخرى</p>
+</section>
+
+<!-- ═══════ FEATURES STRIP ═══════ -->
+<section class="strip glass">
+  <div class="strip-item"><i class="fa-solid fa-gauge-high"></i><b>سريع</b><span>معالجة فورية داخل المتصفح والسيرفر</span></div>
+  <div class="strip-item"><i class="fa-solid fa-shield-halved"></i><b>آمن</b><span>بدون تخزين — بياناتك تبقى لك</span></div>
+  <div class="strip-item"><i class="fa-solid fa-gift"></i><b>مجاني 100%</b><span>كل الأدوات مفتوحة وبدون تسجيل</span></div>
+  <div class="strip-item"><i class="fa-brands fa-python"></i><b>Python Tools</b><span>شغّل وتحقق ونسّق بضغطة واحدة</span></div>
+</section>
+
+{% endblock %}

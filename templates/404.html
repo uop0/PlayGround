@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — BlackScript | @FFQPU</title>
+  <meta name="description" content="BlackScript | @FFQPU — صفحة غير موجودة" />
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/logo.svg') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body class="font-cairo error-page">
+  <div class="err-wrap glass">
+    <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="BlackScript" class="err-logo" />
+    <div class="err-code font-mono">404</div>
+    <h1>الصفحة ضاعت في الثقب الأسود 🕳️</h1>
+    <p>الرابط غير موجود أو تم نقله. ارجع للرئيسية أو تواصل مع <a href="https://t.me/FFQPU" target="_blank" rel="noopener">@FFQPU</a></p>
+    <div class="err-actions">
+      <a href="{{ url_for('index') }}" class="btn btn-neon"><i class="fa-solid fa-house"></i> الرئيسية</a>
+      <a href="https://t.me/FFQPU" target="_blank" rel="noopener" class="btn btn-ghost"><i class="fa-brands fa-telegram"></i> @FFQPU</a>
+    </div>
+  </div>
+</body>
+</html>

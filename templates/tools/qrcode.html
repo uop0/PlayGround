@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="tool-hero glass">
+  <span class="badge {{ tool.badge_class }}">{{ tool.badge }}</span>
+  <h1><i class="{{ tool.icon }}"></i> {{ tool.ar }}</h1>
+  <p class="tool-en font-mono">{{ tool.en }}</p>
+  <p>{{ tool.desc }}</p>
+</section>
+<section class="tool-box glass">
+  <label class="lbl">النص أو الرابط</label>
+  <input id="qr-in" class="inp mono-ltr" dir="ltr" placeholder="https://t.me/FFQPU" />
+  <div class="row">
+    <button class="btn btn-neon" onclick="doQr()"><i class="fa-solid fa-qrcode"></i> توليد QR</button>
+    <a id="qr-dl" class="btn btn-ghost hidden" download="blackscript-qr.png"><i class="fa-solid fa-download"></i> تحميل PNG</a>
+  </div>
+  <div class="qr-preview"><img id="qr-img" alt="QR preview" class="hidden" /></div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+async function doQr(){
+  const text = document.getElementById('qr-in').value;
+  if(!text.trim()) return toast('أدخل نصاً أو رابطاً ⚠️', 'warn');
+  const r = await api('/api/qrcode', {text});
+  if(r.ok){
+    const img = document.getElementById('qr-img');
+    img.src = r.result; img.classList.remove('hidden');
+    const dl = document.getElementById('qr-dl');
+    dl.href = r.result; dl.classList.remove('hidden');
+    toast('تم توليد رمز QR ✓', 'ok');
+  } else toast(r.error || 'خطأ', 'error');
+}
+</script>
+{% endblock %}

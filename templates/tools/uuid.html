@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="tool-hero glass">
+  <span class="badge {{ tool.badge_class }}">{{ tool.badge }}</span>
+  <h1><i class="{{ tool.icon }}"></i> {{ tool.ar }}</h1>
+  <p class="tool-en font-mono">{{ tool.en }}</p>
+  <p>{{ tool.desc }}</p>
+</section>
+<section class="tool-box glass">
+  <div class="row">
+    <label class="lbl inline">العدد (1-20):
+      <select id="uuid-count" class="inp inline-inp"><option>1</option><option>3</option><option>5</option><option>10</option></select>
+    </label>
+    <button class="btn btn-neon" onclick="doUuid()"><i class="fa-solid fa-dice"></i> توليد UUID</button>
+    <button class="btn btn-mini" onclick="copyText('uuid-out')"><i class="fa-solid fa-copy"></i> نسخ الكل</button>
+  </div>
+  <label class="lbl">المعرفات المولدة</label>
+  <textarea id="uuid-out" class="inp mono-ltr" rows="6" readonly placeholder="اضغط توليد…"></textarea>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>
+async function doUuid(){
+  const count = parseInt(document.getElementById('uuid-count').value || '1', 10);
+  const r = await api('/api/uuid', {count});
+  if(r.ok){ document.getElementById('uuid-out').value = r.result.join('\n'); autoCopy(r.result.join('\n')); }
+}
+</script>
+{% endblock %}

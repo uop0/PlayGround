@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00ff9d"/>
+      <stop offset=".55" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="2.2" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#0a0a0a" stroke="url(#g)" stroke-width="2.5"/>
+  <g filter="url(#glow)" font-family="monospace" font-weight="bold" font-size="22" text-anchor="middle">
+    <text x="32" y="41" fill="url(#g)">&lt;/&gt;</text>
+  </g>
+  <circle cx="50" cy="14" r="4" fill="#00ff9d"/>
+  <circle cx="50" cy="14" r="4" fill="#00ff9d" opacity=".35">
+    <animate attributeName="r" values="4;7;4" dur="1.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".4;0;.4" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+</svg>
