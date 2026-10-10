@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بلاغات تيك توك | الإبلاغ الرسمي</title>
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; }
+  :root {
+    --bg: #000000;
+    --card: #0d0d0d;
+    --card2: #161616;
+    --border: #262626;
+    --text: #f5f5f5;
+    --muted: #a1a1a1;
+    --accent: #ffffff;
+    --btn: #ffffff;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+    position: sticky; top:0; background:#000; z-index:10;
+  }
+  .logo { display:flex; align-items:center; gap:12px; font-weight:800; font-size:20px; }
+  .logo-mark {
+    width:40px; height:40px; border-radius:12px;
+    background:#fff; color:#000;
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; font-weight:900;
+  }
+  .header-btns { display:flex; gap:10px; }
+  button, a.btn {
+    cursor:pointer; border-radius:12px; border:1px solid var(--border);
+    padding:10px 16px; font-size:14px; font-weight:700;
+    background: var(--card2); color: var(--text); text-decoration:none;
+    transition:.2s;
+  }
+  button.primary { background:#fff; color:#000; border-color:#fff; }
+  button.primary:hover, a.btn.primary:hover { opacity:.85; }
+  button:hover { border-color:#555; }
+  main { max-width:680px; margin:0 auto; padding:24px 16px 60px; }
+  .hero {
+    text-align:center; padding:28px 12px 10px;
+  }
+  .hero h1 { font-size:30px; margin-bottom:10px; }
+  .hero p { color: var(--muted); line-height:1.8; font-size:15px; }
+  .badge {
+    display:inline-block; border:1px solid var(--border); background:var(--card);
+    padding:6px 14px; border-radius:999px; font-size:13px; color:var(--muted); margin-bottom:14px;
+  }
+  .card {
+    background: linear-gradient(180deg, var(--card), #080808);
+    border:1px solid var(--border); border-radius:20px;
+    padding:20px; margin-top:18px;
+    box-shadow: 0 10px 40px rgba(255,255,255,.04);
+  }
+  .card h2 { font-size:18px; margin-bottom:14px; }
+  label { display:block; font-size:14px; margin:14px 0 6px; color:#ddd; font-weight:700; }
+  input, select, textarea {
+    width:100%; background:#000; color:#fff;
+    border:1px solid #2d2d2d; border-radius:12px;
+    padding:13px 14px; font-size:15px; outline:none;
+  }
+  input:focus, select:focus, textarea:focus { border-color:#fff; }
+  textarea { min-height:90px; resize:vertical; line-height:1.7; }
+  .hint { font-size:12.5px; color:var(--muted); margin-top:6px; line-height:1.7; }
+  .actions { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; }
+  .actions button, .actions a { flex:1; text-align:center; min-width:140px; }
+  .steps {
+    margin-top:14px; background:#000; border:1px dashed #333;
+    border-radius:14px; padding:14px; display:none;
+  }
+  .steps.active { display:block; }
+  .steps h3 { font-size:15px; margin-bottom:10px; }
+  .step { display:flex; gap:10px; padding:10px 0; border-top:1px solid #1c1c1c; font-size:14px; line-height:1.7; }
+  .step:first-of-type { border-top:none; }
+  .dot { width:26px; height:26px; flex-shrink:0; border-radius:50%; background:#fff; color:#000; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; }
+  .notice {
+    margin-top:16px; border:1px solid #333; background:#0a0a0a;
+    border-radius:14px; padding:14px; font-size:13.5px; line-height:1.9; color:#c9c9c9;
+  }
+  footer { text-align:center; padding:30px 16px; color:var(--muted); font-size:13px; border-top:1px solid var(--border); }
+  footer a { color:#fff; font-weight:800; text-decoration:none; }
+
+  /* Side drawer */
+  .overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); opacity:0; pointer-events:none; transition:.25s; z-index:20; }
+  .overlay.show { opacity:1; pointer-events:auto; }
+  aside.drawer {
+    position:fixed; top:0; right:0; height:100vh; width:min(380px, 92vw);
+    background:#0a0a0a; border-left:1px solid var(--border); z-index:21;
+    transform: translateX(100%); transition:.3s ease;
+    display:flex; flex-direction:column;
+  }
+  aside.drawer.open { transform: translateX(0); }
+  .drawer-head { padding:18px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
+  .drawer-head h2 { font-size:18px; }
+  .drawer-body { flex:1; overflow:auto; padding:16px; }
+  .report-item { border:1px solid var(--border); border-radius:14px; padding:12px; margin-bottom:12px; background:#111; }
+  .report-item .link { font-size:13px; word-break:break-all; color:#fff; margin-bottom:6px; }
+  .report-item .meta { font-size:12px; color:var(--muted); line-height:1.8; }
+  .empty { text-align:center; color:var(--muted); padding:40px 10px; font-size:14px; line-height:2; }
+  .close-x { background:#1c1c1c; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><div class="logo-mark">T</div><span>بلاغات تيك توك</span></div>
+  <div class="header-btns">
+    <button id="openHistory">سجل البلاغات</button>
+    <a class="btn primary" href="https://t.me/FFQPU" target="_blank" rel="noopener">تواصل مع المطور @FFQPU</a>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="badge">تصميم أسود • عربي بالكامل • إبلاغ رسمي فقط</div>
+    <h1>الإبلاغ عن حسابات تيك توك</h1>
+    <p>أدخل رابط الحساب، اختر نوع المخالفة، ثم اتبع الجلسة الإرشادية الحقيقية لتقديم بلاغ واحد صحيح عبر تيك توك الرسمي. لا ندعم البلاغات الجماعية أو الوهمية.</p>
+  </div>
+
+  <div class="card">
+    <h2>نموذج البلاغ الرسمي</h2>
+
+    <label for="accountLink">رابط الحساب</label>
+    <input id="accountLink" placeholder="مثال: https://www.tiktok.com/@username" dir="ltr" style="text-align:left">
+    <div class="hint">الصق رابط الحساب الكامل من تيك توك. يتم التحقق من الرابط محلياً فقط.</div>
+
+    <label for="reportType">نوع البلاغ</label>
+    <select id="reportType">
+      <option value="انتحال شخصية">انتحال شخصية</option>
+      <option value="محتوى مسيء أو خطير">محتوى مسيء أو خطير</option>
+      <option value="تحرش وتنمر">تحرش وتنمر</option>
+      <option value="خطاب كراهية">خطاب كراهية</option>
+      <option value="محتوى جنسي">محتوى جنسي</option>
+      <option value="احتيال وخداع">احتيال وخداع</option>
+      <option value="حقوق نشر">انتهاك حقوق النشر</option>
+      <option value="حساب قاصر">حساب قاصر (أقل من 13 سنة)</option>
+      <option value="أخرى">أخرى</option>
+    </select>
+
+    <label for="details">شرح المخالفة (اختياري لكن يُفضل)</label>
+    <textarea id="details" placeholder="اكتب ما هي المخالفة، وأين ظهرت، ومتى، مع أي دليل متوفر..."></textarea>
+    <div class="hint">اكتب بلاغاً صادقاً واحداً فقط. البلاغات الكاذبة أو المتكررة قد تعرّض حسابك للعقوبة.</div>
+
+    <div class="actions">
+      <button class="primary" id="startSession">بدء جلسة البلاغ الحقيقية</button>
+      <button id="copyBtn">نسخ تفاصيل البلاغ</button>
+    </div>
+
+    <div class="steps" id="steps">
+      <h3>جلسة البلاغ — اتبع الخطوات الحقيقية:</h3>
+      <div class="step"><div class="dot">1</div><div>تم حفظ البلاغ في السجل الجانبي بتاريخ اليوم. افتح صفحة الحساب من الزر بالأسفل وتأكد أنه نفس الحساب المقصود.</div></div>
+      <div class="step"><div class="dot">2</div><div>داخل تيك توك اضغط <b>مشاركة ← إبلاغ</b> ثم اختر نفس نوع البلاغ الذي حددته هنا.</div></div>
+      <div class="step"><div class="dot">3</div><div>الصق الشرح الذي كتبته وأرفق دليلاً (صورة شاشة / رابط فيديو) ثم أرسل البلاغ مرة واحدة فقط.</div></div>
+      <div class="step"><div class="dot">4</div><div>لا تكرر البلاغ من حسابات متعددة. إذا لم يتم الرد خلال أيام، استخدم نموذج تيك توك الرسمي للطعن/المتابعة.</div></div>
+      <div class="actions" style="margin-top:14px">
+        <a class="btn primary" id="openTikTok" href="#" target="_blank" rel="noopener">فتح الحساب في تيك توك</a>
+        <a class="btn" href="https://www.tiktok.com/legal/report/feedback" target="_blank" rel="noopener">نموذج تيك توك الرسمي</a>
+      </div>
+    </div>
+
+    <div class="notice">
+      <b style="color:#fff">تنبيه مهم:</b> هذا التطبيق لا يرسل بلاغات تلقائية ولا يضاعف عدد البلاغات. البلاغ الجماعي المتعمد ضد حساب لا يخالف القواعد يعتبر إساءة استخدام وقد يخالف شروط تيك توك. استخدمه فقط للمخالفات الحقيقية.<br><br>
+      للدعم أو الاستفسار: <a href="https://t.me/FFQPU" target="_blank" rel="noopener" style="color:#fff;font-weight:800">تيليجرام المطور @FFQPU</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>لماذا بلاغ واحد صحيح أفضل؟</h2>
+    <p style="color:#a1a1a1;font-size:14px;line-height:2">أنظمة تيك توك تراجع المحتوى وليس عدد البلاغات. بلاغ واحد مفصّل مع دليل أقوى من عشرات البلاغات الفارغة، ويحمي حسابك من التقييد بسبب الإبلاغ الكاذب.</p>
+  </div>
+</main>
+
+<footer>
+  تطبيق بلاغات تيك توك — نسخة عربية سوداء • تواصل مع المطور عبر تيليجرام <a href="https://t.me/FFQPU" target="_blank" rel="noopener">@FFQPU</a>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="سجل البلاغات">
+  <div class="drawer-head">
+    <h2>سجل البلاغات</h2>
+    <button class="close-x" id="closeHistory">إغلاق ✕</button>
+  </div>
+  <div class="drawer-body" id="historyList"></div>
+</aside>
+
+<script>
+const linkInput = document.getElementById('accountLink');
+const typeSelect = document.getElementById('reportType');
+const detailsInput = document.getElementById('details');
+const steps = document.getElementById('steps');
+const openTikTok = document.getElementById('openTikTok');
+const drawer = document.getElementById('drawer');
+const overlay = document.getElementById('overlay');
+const historyList = document.getElementById('historyList');
+
+function getHistory(){ try { return JSON.parse(localStorage.getItem('tt_reports')||'[]'); } catch(e){ return []; } }
+function saveHistory(h){ localStorage.setItem('tt_reports', JSON.stringify(h)); }
+
+function renderHistory(){
+  const h = getHistory();
+  if(!h.length){
+    historyList.innerHTML = '<div class="empty">لا توجد بلاغات بعد.<br>ابدأ أول جلسة بلاغ حقيقية من الصفحة الرئيسية.</div>';
+    return;
+  }
+  historyList.innerHTML = h.map((r,i)=>`
+    <div class="report-item">
+      <div class="link">${escapeHtml(r.link)}</div>
+      <div class="meta">النوع: ${escapeHtml(r.type)}<br>التاريخ: ${escapeHtml(r.date)}<br>${r.details ? 'ملاحظة: '+escapeHtml(r.details).slice(0,120) : 'بدون شرح'}</div>
+      <div style="margin-top:8px;display:flex;gap:8px">
+        <button onclick="reopenReport('${r.link}')" style="flex:1">فتح الحساب</button>
+        <button onclick="deleteReport(${i})" style="flex:1">حذف</button>
+      </div>
+    </div>`).join('');
+}
+function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+window.reopenReport = (link)=>{ window.open(link,'_blank'); };
+window.deleteReport = (i)=>{ const h=getHistory(); h.splice(i,1); saveHistory(h); renderHistory(); };
+
+function validTikTokLink(v){
+  v=v.trim();
+  return /^https?:\/\/(www\.|vm\.|vt\.)?tiktok\.com\/.+/.test(v) || /^https?:\/\/(vm|vt)\.tiktok\.com\/.+/.test(v);
+}
+
+document.getElementById('startSession').addEventListener('click', ()=>{
+  const link = linkInput.value.trim();
+  if(!link){ alert('يرجى إدخال رابط الحساب أولاً'); return; }
+  if(!validTikTokLink(link)){ alert('الرابط غير صالح. يجب أن يكون رابط تيك توك حقيقي مثل https://www.tiktok.com/@username'); return; }
+  const type = typeSelect.value;
+  const details = detailsInput.value.trim();
+  const h = getHistory();
+  h.unshift({ link, type, details, date: new Date().toLocaleString('ar') });
+  saveHistory(h); renderHistory();
+  openTikTok.href = link;
+  steps.classList.add('active');
+  steps.scrollIntoView({behavior:'smooth'});
+});
+
+document.getElementById('copyBtn').addEventListener('click', async ()=>{
+  const txt = `رابط الحساب: ${linkInput.value}\nنوع البلاغ: ${typeSelect.value}\nالشرح: ${detailsInput.value || '—'}`;
+  try { await navigator.clipboard.writeText(txt); alert('تم نسخ تفاصيل البلاغ'); }
+  catch(e){ alert(txt); }
+});
+
+const openD = ()=>{ drawer.classList.add('open'); overlay.classList.add('show'); renderHistory(); };
+const closeD = ()=>{ drawer.classList.remove('open'); overlay.classList.remove('show'); };
+document.getElementById('openHistory').addEventListener('click', openD);
+document.getElementById('closeHistory').addEventListener('click', closeD);
+overlay.addEventListener('click', closeD);
+renderHistory();
+</script>
+</body>
+</html>
