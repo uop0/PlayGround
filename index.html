@@ -1,0 +1,208 @@
+<!-- ============================================================
+  FFQPU System — Account Recovery / Re-link Support Ticket
+  Owner: FFQPU | Telegram: @FFQPU | Channel: https://t.me/BFQDS
+  © 2026 FFQPU — All Rights Reserved
+============================================================ -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- تعليق عربي: بيانات المالك وحقوق النشر -->
+  <meta name="author" content="FFQPU">
+  <meta name="copyright" content="© 2026 FFQPU — All Rights Reserved">
+  <title>نظام استعادة الحساب | FFQPU — Account Recovery Support</title>
+  <meta name="description" content="نظام دعم استعادة وربط حسابات ألعاب اللودو (Yalla Ludo, Ludo King, Ludo Star). أرسل طلبك وسيتواصل معك الدعم عبر تيليجرام. Ludo account recovery and re-link support ticket system.">
+  <meta name="keywords" content="استعادة حساب لودو, Yalla Ludo, Ludo King, Ludo Star, ربط رقم سعودي, دعم لودو, FFQPU, ludo account recovery">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="./index.html">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FFQPU System">
+  <meta property="og:title" content="نظام استعادة الحساب | FFQPU">
+  <meta property="og:description" content="أرسل طلب استعادة حساب اللودو وسيتواصل معك الدعم عبر تيليجرام.">
+  <meta property="og:locale" content="ar_SA">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="نظام استعادة الحساب | FFQPU">
+  <meta name="twitter:description" content="Ludo account recovery support — reply via Telegram @FFQPU">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23f5c542'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' font-weight='900' font-family='Arial'%3EF%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- تعليق عربي: الشريط العلوي الثابت -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./index.html">
+        <span class="brand-mark">F</span>
+        <span>
+          <span class="brand-name">نظام <span>FFQPU</span> للدعم</span>
+          <span class="brand-sub">Ludo Account Recovery System</span>
+        </span>
+      </a>
+      <nav class="topbar-links">
+        <a href="./admin.html">الإدارة</a>
+        <a class="btn-telegram" href="https://t.me/FFQPU" target="_blank" rel="noopener">تيليجرام @FFQPU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- تعليق عربي: قسم الترحيب -->
+    <section class="hero">
+      <span class="hero-badge">🎲 دعم Yalla Ludo • Ludo King • Ludo Star</span>
+      <h1>استعادة / ربط حساب <span class="gold">اللودو</span></h1>
+      <p>عبّئ النموذج برقمك السعودي وسيصل طلبك مباشرةً لفريق الدعم — والرد يكون عبر تيليجرام.</p>
+      <p class="hero-en">Submit your recovery request — our team replies on Telegram.</p>
+    </section>
+
+    <!-- تعليق عربي: خطوات العمل -->
+    <section class="steps" aria-label="خطوات">
+      <div class="step"><span class="ico">📝</span><strong>1. عبّئ النموذج</strong>أدخل بيانات حسابك</div>
+      <div class="step"><span class="ico">📩</span><strong>2. يصل للدعم</strong>يُرسل طلبك فورًا عبر تيليجرام</div>
+      <div class="step"><span class="ico">💬</span><strong>3. الرد عبر تيليجرام</strong>تابع @FFQPU والقناة</div>
+    </section>
+
+    <!-- تعليق عربي: لافتة التنبيه الأمني -->
+    <div class="security-banner" role="alert">
+      <strong>⚠️ تنبيه أمني:</strong>
+      نحن لا نطلب رمز OTP أبدًا. فقط مبلغ الذهب (Gold) وكلمة مرور الحساب للتحقق من الهوية.
+      بياناتك تُرسل مباشرةً إلى الدعم ولا تُنشر علنًا.
+    </div>
+
+    <!-- تعليق عربي: النموذج الرئيسي -->
+    <form id="recoveryForm" class="card" novalidate>
+      <!-- قسم A: معلومات اللعبة -->
+      <h2 class="section-title"><span class="num">A</span> معلومات اللعبة <span style="font-size:12px;color:#888;font-weight:400">Game Info</span></h2>
+      <p class="section-sub">اختر اللعبة وأدخل بيانات الحساب.</p>
+
+      <div class="field" data-field="game">
+        <label for="game">اللعبة <span class="req">*</span><span class="en">Game *</span></label>
+        <select id="game" name="game" required>
+          <option value="">— اختر اللعبة —</option>
+          <option value="Yalla Ludo">Yalla Ludo — يلا لودو</option>
+          <option value="Ludo King">Ludo King</option>
+          <option value="Ludo Star">Ludo Star — لودو ستار</option>
+          <option value="Other">أخرى / Other</option>
+        </select>
+        <p class="field-error">فضلًا اختر اللعبة.</p>
+      </div>
+
+      <div class="field" data-field="accountId">
+        <label for="accountId">معرّف الحساب (ID) <span class="req">*</span><span class="en">Account ID *</span></label>
+        <input type="text" id="accountId" name="accountId" class="ltr-input" placeholder="e.g. 12345678" required autocomplete="off">
+        <p class="field-error">فضلًا أدخل معرّف الحساب.</p>
+      </div>
+
+      <div class="field" data-field="nickname">
+        <label for="nickname">اسم الحساب (اللقب)<span class="en">Account Nickname</span></label>
+        <input type="text" id="nickname" name="nickname" placeholder="اسمك داخل اللعبة" autocomplete="off">
+      </div>
+
+      <!-- قسم B: أرقام الجوال السعودية -->
+      <h2 class="section-title" style="margin-top:26px"><span class="num">B</span> أرقام الجوال السعودية <span style="font-size:12px;color:#888;font-weight:400">Saudi Phones</span></h2>
+      <p class="section-sub">رقم سعودي فقط — يجب أن يبدأ بـ <b dir="ltr">+9665</b>.</p>
+
+      <div class="field" data-field="oldPhone">
+        <label for="oldPhone">رقم الجوال السعودي القديم (المفقود) <span class="req">*</span><span class="en">Old Saudi Phone *</span></label>
+        <input type="tel" id="oldPhone" name="oldPhone" class="ltr-input" placeholder="+9665XXXXXXXX" dir="ltr" required inputmode="tel" autocomplete="tel">
+        <p class="helper">مثال: <span dir="ltr">+966512345678</span> — يقبل أيضًا 05XXXXXXXX وسيحوَّل تلقائيًا.</p>
+        <p class="field-error">رقم غير صالح — يجب أن يبدأ بـ +9665 ويتكوّن من 13 خانة (+9665 + 8 أرقام).</p>
+      </div>
+
+      <div class="field" data-field="newPhone">
+        <label for="newPhone">رقم الجوال السعودي الجديد (للربط) <span class="req">*</span><span class="en">New Saudi Phone to Link *</span></label>
+        <input type="tel" id="newPhone" name="newPhone" class="ltr-input" placeholder="+9665XXXXXXXX" dir="ltr" required inputmode="tel" autocomplete="tel">
+        <p class="helper">يجب أن يكون مختلفًا عن الرقم القديم.</p>
+        <p class="field-error">رقم غير صالح — يجب أن يبدأ بـ +9665 وأن يختلف عن الرقم القديم.</p>
+      </div>
+
+      <div class="field" data-field="reason">
+        <label for="reason">سبب عدم توفر الرقم القديم <span class="req">*</span><span class="en">Reason *</span></label>
+        <select id="reason" name="reason" required>
+          <option value="">— اختر السبب —</option>
+          <option value="SIM lost">الشريحة مفقودة / SIM lost</option>
+          <option value="Number disconnected">الرقم مفصول / Number disconnected</option>
+          <option value="Cannot receive OTP">لا أستقبل رمز OTP / Cannot receive OTP</option>
+          <option value="Number registered under another person">الرقم مسجّل باسم شخص آخر</option>
+          <option value="Other">أخرى / Other</option>
+        </select>
+        <p class="field-error">فضلًا اختر السبب.</p>
+      </div>
+
+      <!-- قسم C: التحقق -->
+      <h2 class="section-title" style="margin-top:26px"><span class="num">C</span> التحقق من الحساب <span style="font-size:12px;color:#888;font-weight:400">Verification</span></h2>
+      <p class="section-sub">مطلوب من المالك للتحقق من الهوية فقط.</p>
+
+      <div class="field" data-field="gold">
+        <label for="gold">مبلغ الذهب داخل اللعبة (Gold) <span class="req">*</span><span class="en">In-game Gold Amount *</span></label>
+        <input type="text" id="gold" name="gold" class="ltr-input" placeholder="e.g. 150000" required autocomplete="off">
+        <p class="field-error">فضلًا أدخل مبلغ الذهب.</p>
+      </div>
+
+      <div class="field" data-field="password">
+        <label for="password">كلمة مرور الحساب <span class="req">*</span><span class="en">Account Password *</span></label>
+        <input type="password" id="password" name="password" class="ltr-input" placeholder="••••••••" required autocomplete="new-password">
+        <p class="helper">تُستخدم فقط للتحقق من الهوية بواسطة الدعم. لا تُشارك علنًا أبدًا.</p>
+        <p class="field-error">فضلًا أدخل كلمة المرور.</p>
+      </div>
+
+      <!-- قسم D: تفاصيل إضافية -->
+      <h2 class="section-title" style="margin-top:26px"><span class="num">D</span> تفاصيل إضافية <span style="font-size:12px;color:#888;font-weight:400">Extra Details</span></h2>
+      <div class="field" data-field="details">
+        <label for="details">ملاحظات إضافية (اختياري)<span class="en">Additional Details (optional)</span></label>
+        <textarea id="details" name="details" placeholder="اكتب أي تفاصيل تساعد الدعم…"></textarea>
+      </div>
+
+      <!-- قسم E: الموافقة -->
+      <h2 class="section-title" style="margin-top:26px"><span class="num">E</span> الإقرار <span style="font-size:12px;color:#888;font-weight:400">Consent</span></h2>
+      <div class="field" data-field="consent" style="margin-top:10px">
+        <label class="consent" for="consent">
+          <input type="checkbox" id="consent" name="consent" required>
+          <span>أقرّ بأن هذا الحساب ملك لي وأن البيانات صحيحة. <span class="req">*</span></span>
+        </label>
+        <p class="field-error">يجب الموافقة على الإقرار للمتابعة.</p>
+      </div>
+
+      <button type="submit" id="submitBtn" class="btn-submit">إرسال طلب الاستعادة 📩<br><small style="font-size:12px;font-weight:400">Submit Recovery Request</small></button>
+      <p class="helper" style="text-align:center;margin-top:10px" id="rateHint">مسموح بطلب واحد كل 30 ثانية لمنع التكرار.</p>
+    </form>
+
+    <!-- تعليق عربي: صندوق النتيجة (نجاح / خطأ) -->
+    <div id="resultSuccess" class="result-box result-success" role="status">
+      <h3>✅ تم استلام طلبك بنجاح!</h3>
+      <p style="color:#888;font-size:14px">احتفظ برقم التذكرة — سيتواصل معك الدعم عبر تيليجرام.</p>
+      <div class="ticket-number" id="ticketNumber" dir="ltr">TKT-2026-XXXXXX</div>
+      <div class="result-actions">
+        <button type="button" class="btn-gold-outline" id="copyTicketBtn">📋 نسخ رقم التذكرة</button>
+        <button type="button" class="btn-secondary" id="printBtn">🖨️ طباعة / PDF</button>
+        <a class="btn-secondary" id="successPageLink" href="./success.html">عرض صفحة النجاح ←</a>
+      </div>
+    </div>
+
+    <div id="resultError" class="result-box result-error" role="alert">
+      <h3>❌ تعذّر إرسال الطلب</h3>
+      <p id="errorMsg" style="font-size:14px">حدث خطأ أثناء الإرسال. تحقق من اتصالك وحاول مجددًا بعد 30 ثانية. تم حفظ طلبك محليًا.</p>
+    </div>
+
+    <!-- تعليق عربي: توقيع المالك -->
+    <p class="signature">Developed by <strong>FFQPU</strong></p>
+    <p class="signature" style="margin-top:0">
+      تابعنا: <a href="https://t.me/FFQPU" target="_blank" rel="noopener" style="color:#f5c542">Telegram @FFQPU</a>
+      •
+      <a href="https://t.me/BFQDS" target="_blank" rel="noopener" style="color:#f5c542">Channel t.me/BFQDS</a>
+    </p>
+  </main>
+
+  <!-- تعليق عربي: الفوتر الثابت -->
+  <footer class="fixed-footer">
+    © 2026 FFQPU — All Rights Reserved |
+    Telegram: <a href="https://t.me/FFQPU" target="_blank" rel="noopener">@FFQPU</a> |
+    Channel: <a href="https://t.me/BFQDS" target="_blank" rel="noopener">t.me/BFQDS</a>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>

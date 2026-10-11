@@ -1,0 +1,123 @@
+<!-- ============================================================
+  FFQPU System — Account Recovery / Re-link Support Ticket
+  Owner: FFQPU | Telegram: @FFQPU | Channel: https://t.me/BFQDS
+  © 2026 FFQPU — All Rights Reserved
+============================================================ -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- تعليق عربي: بيانات المالك -->
+  <meta name="author" content="FFQPU">
+  <meta name="copyright" content="© 2026 FFQPU — All Rights Reserved">
+  <title>لوحة الإدارة | FFQPU Admin</title>
+  <meta name="description" content="لوحة إدارة طلبات استعادة حسابات اللودو — FFQPU. محمية بكلمة مرور.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FFQPU System">
+  <meta property="og:title" content="لوحة الإدارة | FFQPU">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23f5c542'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' font-weight='900' font-family='Arial'%3EF%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- تعليق عربي: الشريط العلوي -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="./index.html">
+        <span class="brand-mark">F</span>
+        <span>
+          <span class="brand-name">لوحة <span>FFQPU</span> للإدارة</span>
+          <span class="brand-sub">Admin Dashboard</span>
+        </span>
+      </a>
+      <nav class="topbar-links">
+        <a href="./index.html">الموقع الرئيسي</a>
+        <a class="btn-telegram" href="https://t.me/FFQPU" target="_blank" rel="noopener">@FFQPU</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container container-wide">
+    <!-- تعليق عربي: شاشة الدخول -->
+    <section id="loginGate" class="card admin-login">
+      <h1 class="section-title"><span class="num">🔒</span> دخول الإدارة</h1>
+      <p class="section-sub">هذه الصفحة محمية — أدخل كلمة المرور.<br><span class="section-sub-en">Password protected area.</span></p>
+      <div class="field">
+        <label for="adminPass">كلمة المرور <span class="en">Admin Password</span></label>
+        <input type="password" id="adminPass" class="ltr-input" placeholder="••••••••" autocomplete="current-password">
+        <p class="field-error" id="loginError">كلمة المرور غير صحيحة.</p>
+      </div>
+      <button type="button" class="btn-submit" id="loginBtn" style="font-size:16px">دخول 🔓</button>
+      <p class="helper" style="text-align:center;margin-top:10px">كلمة المرور الافتراضية: <span dir="ltr">FFQPU2026</span> (غيّرها من ثابت ADMIN_PASSWORD في script.js)</p>
+    </section>
+
+    <!-- تعليق عربي: لوحة التحكم (مخفية حتى الدخول) -->
+    <section id="dashboard" style="display:none">
+      <div class="hero" style="padding-top:26px">
+        <h1 style="font-size:26px">طلبات <span class="gold">الاستعادة</span></h1>
+        <p>تُحفظ الطلبات محليًا في هذا المتصفح (localStorage).</p>
+      </div>
+
+      <!-- تعليق عربي: بطاقات الإحصائيات -->
+      <div class="stats">
+        <div class="stat-card stat-total"><div class="n" id="statTotal">0</div><div class="l">الإجمالي<br>Total</div></div>
+        <div class="stat-card stat-new"><div class="n" id="statNew">0</div><div class="l">جديدة<br>New</div></div>
+        <div class="stat-card stat-done"><div class="n" id="statDone">0</div><div class="l">منجزة<br>Done</div></div>
+      </div>
+
+      <!-- تعليق عربي: أدوات الفلترة والتصدير -->
+      <div class="admin-toolbar no-print">
+        <select id="statusFilter" aria-label="فلترة حسب الحالة">
+          <option value="all">كل الحالات — All</option>
+          <option value="new">جديدة — New</option>
+          <option value="processing">قيد المعالجة — Processing</option>
+          <option value="done">منجزة — Done</option>
+        </select>
+        <button type="button" class="btn-gold-outline" id="exportCsvBtn">📥 تصدير CSV</button>
+        <button type="button" class="btn-secondary" id="printAdminBtn">🖨️ طباعة</button>
+        <button type="button" class="btn-secondary" id="logoutBtn">تسجيل خروج</button>
+      </div>
+
+      <!-- تعليق عربي: جدول الطلبات -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th>Game</th>
+              <th>ID</th>
+              <th>Old Number</th>
+              <th>New Number</th>
+              <th>Gold</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th class="no-print">Action</th>
+            </tr>
+          </thead>
+          <tbody id="ticketsBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState" style="display:none">لا توجد طلبات بعد.<br><span style="font-size:12px">No tickets yet.</span></div>
+      </div>
+
+      <div style="margin-top:14px;text-align:center" class="no-print">
+        <button type="button" class="btn-secondary" id="clearAllBtn" style="border-color:#ef4444;color:#ef4444">🗑️ مسح كل الطلبات</button>
+      </div>
+    </section>
+
+    <p class="signature">Developed by <strong>FFQPU</strong></p>
+  </main>
+
+  <!-- تعليق عربي: الفوتر الثابت -->
+  <footer class="fixed-footer">
+    © 2026 FFQPU — All Rights Reserved |
+    Telegram: <a href="https://t.me/FFQPU" target="_blank" rel="noopener">@FFQPU</a> |
+    Channel: <a href="https://t.me/BFQDS" target="_blank" rel="noopener">t.me/BFQDS</a>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
