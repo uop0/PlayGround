@@ -1,0 +1,86 @@
+<!-- FFQPU — Developer & Owner: FFQPU | Telegram: @FFQPU | Channel: https://t.me/BFQDS | Copyright 2026 FFQPU -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="FFQPU">
+<meta name="description" content="لوحة الإدارة — نظام تذاكر تغيير الرقم | FFQPU">
+<title>لوحة الإدارة | FFQPU</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">F</div>
+    <div class="brand">
+      <h1>لوحة الإدارة 🔐</h1>
+      <small>FFQPU — إدارة التذاكر</small>
+    </div>
+    <nav class="nav">
+      <a href="index.html">🏠 الرئيسية</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- تسجيل الدخول -->
+  <div class="card login-box" id="loginBox">
+    <h3>🔐 دخول الإدارة</h3>
+    <div class="field full">
+      <label>كلمة المرور</label>
+      <input type="password" id="adminPass" placeholder="أدخل كلمة المرور" dir="ltr">
+    </div>
+    <button class="btn-gold" id="adminLoginBtn">دخول</button>
+    <div id="loginError" class="result error" style="margin-top:12px">❌ كلمة المرور غير صحيحة.</div>
+    <p class="hint" style="margin-top:10px">كلمة المرور الافتراضية: <b dir="ltr">FFQPU2026</b> (يمكن تغييرها من داخل اللوحة)</p>
+  </div>
+
+  <!-- لوحة التحكم -->
+  <div id="dashboard" style="display:none">
+    <div class="stats">
+      <div class="stat"><b id="statTotal">0</b><span>📊 إجمالي التذاكر</span></div>
+      <div class="stat"><b id="statNew">0</b><span>🆕 جديدة</span></div>
+      <div class="stat"><b id="statDone">0</b><span>✅ مكتملة</span></div>
+    </div>
+
+    <div class="card">
+      <h3>🎛️ إدارة التذاكر</h3>
+      <div class="toolbar">
+        <select id="filterStatus">
+          <option value="all">كل الحالات</option>
+          <option value="new">🆕 جديدة</option>
+          <option value="in-progress">⏳ قيد المعالجة</option>
+          <option value="completed">✅ مكتملة</option>
+        </select>
+        <button class="btn-gold" id="exportBtn">📥 تصدير CSV</button>
+        <button class="btn-ghost" id="changePassBtn">🔑 تغيير كلمة المرور</button>
+        <button class="btn-ghost" id="logoutBtn">🚪 خروج</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>رقم التذكرة</th><th>اللعبة</th><th>ID</th><th>القديم</th><th>الجديد</th><th>الحالة</th><th>التاريخ</th>
+            </tr>
+          </thead>
+          <tbody id="ticketsBody"></tbody>
+        </table>
+      </div>
+      <p class="signature">تطوير <b>FFQPU</b> — FFQPU Development © <span class="js-year">2026</span></p>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer-fixed">
+  <b><span class="js-year">2026</span> FFQPU — جميع الحقوق محفوظة</b> |
+  تيليجرام: <a href="https://t.me/FFQPU" target="_blank">@FFQPU</a> |
+  القناة: <a href="https://t.me/BFQDS" target="_blank">t.me/BFQDS</a>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
