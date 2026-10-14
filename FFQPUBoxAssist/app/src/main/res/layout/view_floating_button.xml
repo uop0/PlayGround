@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <FrameLayout
+        android:id="@+id/floatBtn"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="@drawable/bg_float_circle">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="F"
+            android:textColor="#00E5FF"
+            android:textSize="44sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/floatMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:background="#CC12121C"
+        android:padding="8dp">
+
+        <Button android:id="@+id/mSpeed"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Speed" android:textSize="12sp" />
+        <Button android:id="@+id/mHide"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Hide" android:textSize="12sp" />
+        <Button android:id="@+id/mClose"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Close" android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

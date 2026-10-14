@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>FFQPU Box Assist — مساعد صندوق البث</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--card:#12121c;--cyan:#00E5FF;--pink:#FF0055;--txt:#fff;--mut:#9AA0AE}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:Cairo,system-ui,Arial,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px}
+.hero{display:flex;gap:24px;align-items:center;flex-wrap:wrap;background:linear-gradient(135deg,rgba(0,229,255,.12),rgba(255,0,85,.12));border:1px solid #222;border-radius:20px;padding:28px;box-shadow:0 8px 40px rgba(0,229,255,.15)}
+.logo{width:110px;height:110px;border-radius:28px;background:#000;border:3px solid var(--cyan);display:grid;place-items:center;font-size:64px;font-weight:900;color:var(--cyan);box-shadow:0 0 30px rgba(0,229,255,.6)}
+h1{margin:0;font-size:34px}.sub{color:var(--mut);margin:6px 0 0}
+.btn{display:inline-block;margin-top:14px;padding:14px 28px;border-radius:20px;font-weight:900;font-size:18px;color:#000;background:linear-gradient(135deg,var(--cyan),var(--pink));text-decoration:none;border:0}
+.warn{margin-top:18px;background:#1a0a12;border:1px solid var(--pink);border-radius:20px;padding:16px 18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:18px}
+.card{background:rgba(18,18,28,.85);border:1px solid #222;border-radius:20px;padding:18px;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+.card h3{margin:0 0 8px;color:var(--cyan)}.card p{margin:0;color:#d7dbe2;font-size:14px;line-height:1.9}
+.badge{display:inline-block;font-size:12px;padding:4px 10px;border-radius:99px;border:1px solid var(--cyan);color:var(--cyan);margin-bottom:8px}
+.code{direction:ltr;text-align:left;background:#0a0a12;border:1px solid #222;border-radius:12px;padding:12px;font-family:monospace;font-size:12px;color:#b9f6ff;overflow:auto}
+footer{color:var(--mut);font-size:12px;margin:26px 0;text-align:center}
+@media(max-width:600px){h1{font-size:24px}.wrap{padding:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="logo">F</div>
+    <div style="flex:1;min-width:240px">
+      <h1>FFQPU Box Assist</h1>
+      <p class="sub">زر عائم فوق بث TikTok Live • نقر تلقائي سريع ومتحكم به • AMOLED أسود #000000</p>
+      <a class="btn" href="#screens">تفعيل الأوفرلاي — Connect</a>
+    </div>
+  </div>
+
+  <div class="warn"><b>⚠️ تحذير أول تشغيل:</b> النقر التلقائي قد يخالف شروط TikTok وقد يؤدي لكتم الهدايا أو تقييد البث أو حظر الحساب. الأداة تعليمية فقط — الاستخدام على مسؤوليتك.</div>
+
+  <div class="grid" id="screens">
+    <div class="card"><span class="badge">Splash</span><h3>شاشة البداية</h3><p>لوجو F نيون مع Fade + Scale لمدة ثانيتين ثم دخول تلقائي للرئيسية.</p></div>
+    <div class="card"><span class="badge">Home</span><h3>الرئيسية</h3><p>رابط البث (tiktok.com/@user/live أو @FFQPU) • السيرفر (1 / 2 / 3 / Auto) • اسم المستخدم • زر Connect متوهج • حالة Online/Offline مع Ping متحرك • زر Activate Overlay.</p></div>
+    <div class="card"><span class="badge">Overlay</span><h3>الزر العائم</h3><p>WindowManager TYPE_APPLICATION_OVERLAY فوق كل التطبيقات. سحب لأي مكان، ضغطة بدء/إيقاف، ضغطة مطولة: السرعة / إخفاء / إغلاق. نبض نيون Pulse.</p></div>
+    <div class="card"><span class="badge">Engine</span><h3>النقر</h3><p>AccessibilityService + dispatchGesture على موقع الزر. سرعة 50–2000ms، عشوائية ±20%، لمس متعدد 1–3 نقاط، Foreground Service مع إشعار ثابت.</p></div>
+    <div class="card"><span class="badge">Settings</span><h3>الإعدادات</h3><p>السرعة، ضغط عشوائي بشري، الحجم، الشفافية، الشكل (دائرة/مربع/يد)، اهتزاز، إيقاف بعد N نقرة. حفظ SharedPreferences.</p></div>
+    <div class="card"><span class="badge">Stats</span><h3>الإحصائيات</h3><p>النقرات، مدة التشغيل، الجلسات + رسم MPAndroidChart. minSdk 24 / targetSdk 34 • MVVM • Material3 • RTL عربي/إنجليزي.</p></div>
+  </div>
+
+  <div class="card" style="margin-top:14px"><h3>الأذونات المطلوبة</h3><p>SYSTEM_ALERT_WINDOW (الظهور فوق التطبيقات) • BIND_ACCESSIBILITY_SERVICE (النقر) • INTERNET • FOREGROUND_SERVICE • VIBRATE — كل إذن يُطلب من شاشة شرح أنيقة قبل فتح إعدادات النظام.</p></div>
+
+  <div class="card" style="margin-top:14px"><h3>هيكل المشروع (FFQPUBoxAssist/)</h3><div class="code">app/src/main/java/com/ffqpu/boxassist/<br/>├─ BoxAssistApp.kt<br/>├─ ui/splash/SplashActivity.kt<br/>├─ ui/home/MainActivity.kt + HomeViewModel.kt<br/>├─ ui/settings/SettingsActivity.kt<br/>├─ ui/stats/StatsActivity.kt<br/>├─ ui/permissions/PermissionExplainActivity.kt<br/>├─ service/OverlayService.kt<br/>├─ accessibility/ClickAccessibilityService.kt<br/>├─ data/PrefsManager.kt + StatsRepository.kt<br/>└─ util/Constants + TikTokLinkValidator + VibratorHelper + LocaleHelper</div></div>
+
+  <div class="card" style="margin-top:14px"><h3>التشغيل في Android Studio</h3><p>1) افتح مجلد FFQPUBoxAssist • 2) Sync Gradle • 3) ضع Cairo.ttf في res/font إن أردت • 4) شغّل على جهاز حقيقي (الأوفرلاي لا يعمل جيداً على المحاكي) • 5) فعّل إذن الظهور فوق التطبيقات ثم خدمة الوصول • 6) الصق رابط البث → Connect → Activate Overlay → اسحب F فوق الصندوق.</p></div>
+
+  <footer>FFQPU Box Assist v1.0.0 • Kotlin • Material Design 3 • صُنع للاستخدام التعليمي المسؤول</footer>
+</div>
+</body>
+</html>

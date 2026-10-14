@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FFQPU Box Assist</string>
+    <string name="live_link">Live Stream Link</string>
+    <string name="link_hint">tiktok.com/@user/live or @FFQPU</string>
+    <string name="server_type">Server Type</string>
+    <string name="username">Username</string>
+    <string name="connect">Connect</string>
+    <string name="connecting">Connecting…</string>
+    <string name="online">● Online</string>
+    <string name="offline">○ Offline</string>
+    <string name="activate_overlay">Activate Overlay</string>
+    <string name="settings">Settings</string>
+    <string name="stats">Statistics</string>
+    <string name="invalid_link">Invalid link. Use tiktok.com/@user/live or @handle</string>
+    <string name="overlay_on">Floating button ON — open TikTok Live and drag it over the box</string>
+    <string name="notif_title">FFQPU Box Assist running</string>
+    <string name="notif_text">Tap to return • Long-press F for speed / hide / close</string>
+    <string name="accessibility_desc">Used to auto-tap the gift box location you choose.</string>
+    <string name="disclaimer_title">⚠️ Warning — Read before use</string>
+    <string name="disclaimer_text">Auto-tapping may violate TikTok Terms of Service and can lead to muted gifts, live restrictions or account bans. This tool is for educational purposes only. Use at your own risk. The developer is not responsible for any penalty.</string>
+    <string name="i_understand">I understand, continue</string>
+    <string name="exit">Exit</string>
+    <string name="speed">Tap speed</string>
+    <string name="random_press">Random (human-like) delay ±20%</string>
+    <string name="float_size">Floating button size</string>
+    <string name="float_alpha">Transparency</string>
+    <string name="float_shape">Shape</string>
+    <string name="vibrate">Vibrate on every click</string>
+    <string name="target_clicks">Stop after N clicks (0 = infinite)</string>
+    <string name="multi">Multi-touch points</string>
+</resources>

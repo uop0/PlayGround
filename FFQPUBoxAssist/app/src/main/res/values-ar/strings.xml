@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">مساعد صندوق FFQPU</string>
+    <string name="live_link">رابط البث المباشر</string>
+    <string name="link_hint">tiktok.com/@user/live أو @FFQPU</string>
+    <string name="server_type">نوع السيرفر</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="connect">اتصال</string>
+    <string name="connecting">جارٍ الاتصال…</string>
+    <string name="online">● متصل</string>
+    <string name="offline">○ غير متصل</string>
+    <string name="activate_overlay">تفعيل الزر العائم</string>
+    <string name="settings">الإعدادات</string>
+    <string name="stats">الإحصائيات</string>
+    <string name="invalid_link">الرابط غير صالح. استخدم tiktok.com/@user/live أو @handle</string>
+    <string name="overlay_on">تم تفعيل الزر — افتح بث TikTok واسحبه فوق الصندوق</string>
+    <string name="notif_title">مساعد FFQPU يعمل</string>
+    <string name="notif_text">اضغط للعودة • اضغط مطولاً على F للسرعة / الإخفاء / الإغلاق</string>
+    <string name="accessibility_desc">يُستخدم للنقر التلقائي على مكان صندوق الهدايا الذي تختاره.</string>
+    <string name="disclaimer_title">⚠️ تحذير — اقرأ قبل الاستخدام</string>
+    <string name="disclaimer_text">النقر التلقائي قد يخالف شروط استخدام TikTok وقد يؤدي إلى كتم الهدايا أو تقييد البث أو حظر الحساب. هذه الأداة لأغراض تعليمية فقط. الاستخدام على مسؤوليتك الخاصة.</string>
+    <string name="i_understand">فهمت، متابعة</string>
+    <string name="exit">خروج</string>
+    <string name="speed">سرعة الضغط</string>
+    <string name="random_press">ضغط عشوائي بشري ±20%</string>
+    <string name="float_size">حجم الزر العائم</string>
+    <string name="float_alpha">الشفافية</string>
+    <string name="float_shape">الشكل</string>
+    <string name="vibrate">اهتزاز مع كل نقرة</string>
+    <string name="target_clicks">التوقف بعد N نقرة (0 = لا نهائي)</string>
+    <string name="multi">نقاط اللمس المتعدد</string>
+</resources>

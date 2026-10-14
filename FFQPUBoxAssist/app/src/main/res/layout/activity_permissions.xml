@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Permissions" android:textColor="@color/white" android:textSize="22sp"
+            android:textStyle="bold" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="1) Overlay: to draw the F button over TikTok.\n2) Accessibility: to perform auto-taps where you place the button.\n3) Notifications: to keep the service alive."
+            android:textColor="@color/gray" />
+        <Button android:id="@+id/btnOverlay"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" android:text="Allow Overlay" />
+        <Button android:id="@+id/btnAccess"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Enable Accessibility" />
+        <Button android:id="@+id/btnNotif"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Allow Notifications" />
+        <Button android:id="@+id/btnDone"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" android:text="Done" />
+    </LinearLayout>
+</ScrollView>
