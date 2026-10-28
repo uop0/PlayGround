@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saw — @FFQPU</title>
+  <meta name="description" content="The private Noir profile of @FFQPU — identity, bio, and Telegram bots." />
+  <meta name="theme-color" content="#000000" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- Favicon: a small gray "F" on black (no white anywhere). -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000000'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='30' font-weight='600' fill='%23a0a0a0' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E" />
+
+  <!-- Clean Latin + Arabic typefaces. System fonts are used as a fallback. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet" />
+
+  <script>
+    /*
+     * If this tab already unlocked the site, hide the gate before first paint.
+     * Keep this storage key in sync with STORAGE_KEY in the main script below.
+     */
+    try {
+      if (sessionStorage.getItem("ffqpu:access:v1") === "granted") {
+        document.documentElement.dataset.returning = "1";
+        document.documentElement.dataset.auth = "1";
+      }
+    } catch (error) {
+      /* Storage can be unavailable in private or restricted contexts. */
+    }
+  </script>
+
+  <style>
+    /* =========================================================
+       1. DESIGN TOKENS
+       Every colour is black or gray. No white is used on the page.
+       ========================================================= */
+    :root {
+      --black: #000000;
+      --surface: #050505;
+      --surface-raised: #0a0a0a;
+      --line: #191919;
+      --line-strong: #2a2a2a;
+      --line-hover: #383838;
+      --text: #c9c9c9;
+      --text-soft: #a0a0a0;
+      --text-dim: #707070;
+      --text-faint: #555555;
+
+      --font-main: "Inter", "Cairo", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-arabic: "Cairo", "Inter", system-ui, sans-serif;
+      --ease: cubic-bezier(0.22, 0.72, 0.24, 1);
+    }
+
+    /* =========================================================
+       2. BASE
+       ========================================================= */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--black);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      min-height: 100svh;
+      margin: 0;
+      overflow-x: hidden;
+      background:
+        radial-gradient(ellipse 70% 46% at 50% -8%, #0d0d0d 0%, rgba(0, 0, 0, 0) 68%),
+        var(--black);
+      color: var(--text);
+      font-family: var(--font-main);
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* The hidden profile must not create a scrollbar behind the gate. */
+    html:not([data-auth="1"]) body {
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse 48% 30% at 50% 0%, rgba(201, 201, 201, 0.045), transparent 72%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    ::selection {
+      background: #2e2e2e;
+      color: var(--text);
+    }
+
+    :focus-visible {
+      outline: 1px solid #4f4f4f;
+      outline-offset: 3px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* A dark scrollbar that blends into the page. */
+    html {
+      scrollbar-color: #262626 var(--black);
+    }
+
+    /* =========================================================
+       3. PASSWORD GATE
+       ========================================================= */
+    .gate {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(ellipse 55% 42% at 50% 0%, #0e0e0e 0%, rgba(0, 0, 0, 0) 70%),
+        var(--black);
+      transition: opacity 0.55s var(--ease), visibility 0.55s var(--ease);
+    }
+
+    .gate.is-leaving {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .gate__panel {
+      width: min(100%, 420px);
+      padding: 42px 36px 30px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(160deg, #0b0b0b 0%, #030303 100%);
+      box-shadow:
+        0 32px 90px rgba(0, 0, 0, 0.9),
+        inset 0 1px 0 #141414;
+      transition: transform 0.55s var(--ease), opacity 0.55s var(--ease);
+    }
+
+    .gate.is-leaving .gate__panel {
+      transform: translateY(-10px) scale(0.985);
+      opacity: 0;
+    }
+
+    .gate__panel.is-error {
+      animation: gate-shake 0.38s ease;
+    }
+
+    @keyframes gate-shake {
+      0%, 100% { transform: translateX(0); }
+      22% { transform: translateX(-7px); }
+      44% { transform: translateX(6px); }
+      66% { transform: translateX(-4px); }
+      82% { transform: translateX(3px); }
+    }
+
+    .gate__mark {
+      margin-bottom: 26px;
+      color: var(--text-dim);
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+    }
+
+    .gate__title {
+      margin: 0 0 8px;
+      color: var(--text);
+      font-size: clamp(1.45rem, 6vw, 1.7rem);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .gate__note {
+      margin: 0 0 26px;
+      color: var(--text-dim);
+      font-size: 0.84rem;
+    }
+
+    .field {
+      position: relative;
+    }
+
+    .field__input {
+      width: 100%;
+      padding: 14px 74px 14px 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--black);
+      color: var(--text);
+      caret-color: var(--text);
+      font-size: 0.92rem;
+      letter-spacing: 0.02em;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .field__input::placeholder {
+      color: var(--text-faint);
+    }
+
+    .field__input:hover {
+      border-color: #333333;
+    }
+
+    .field__input:focus {
+      border-color: #464646;
+      background: #020202;
+      box-shadow: 0 0 0 3px rgba(201, 201, 201, 0.055);
+      outline: none;
+    }
+
+    /* Kill the browser's bright autofill background. */
+    .field__input:-webkit-autofill,
+    .field__input:-webkit-autofill:hover,
+    .field__input:-webkit-autofill:focus {
+      -webkit-text-fill-color: var(--text);
+      -webkit-box-shadow: 0 0 0 1000px var(--black) inset;
+      caret-color: var(--text);
+      transition: background-color 9999s ease-out;
+    }
+
+    .field__toggle {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      padding: 6px 9px;
+      border: 0;
+      border-radius: 7px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: color 0.25s ease, background 0.25s ease;
+    }
+
+    .field__toggle:hover {
+      color: var(--text-soft);
+      background: #101010;
+    }
+
+    .gate__error {
+      min-height: 20px;
+      margin: 10px 2px 4px;
+      color: var(--text-soft);
+      font-size: 0.75rem;
+      letter-spacing: 0.015em;
+    }
+
+    .gate__button {
+      width: 100%;
+      margin-top: 4px;
+      padding: 13px 18px;
+      border: 1px solid var(--line-strong);
+      border-radius: 12px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #121212;
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+
+    .gate__button:hover {
+      border-color: var(--line-hover);
+      background: #181818;
+      color: #d2d2d2;
+    }
+
+    .gate__button:active {
+      transform: translateY(1px);
+    }
+
+    .gate__footer {
+      margin: 28px 0 0;
+      padding-top: 20px;
+      border-top: 1px solid #121212;
+      color: var(--text-faint);
+      font-size: 0.64rem;
+      letter-spacing: 0.19em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       4. ENTRY ANIMATION
+       The gate fades away and the profile reveals in sequence.
+       ========================================================= */
+    .site {
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.7s var(--ease), visibility 0.7s var(--ease);
+    }
+
+    .site.is-live {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(16px);
+      transition:
+        opacity 0.72s var(--ease),
+        transform 0.72s var(--ease);
+      transition-delay: calc(var(--i, 0) * 70ms + 100ms);
+    }
+
+    .site.is-live [data-reveal] {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Returning visitors see the page immediately, without a flash. */
+    html[data-returning="1"] .gate {
+      display: none;
+    }
+
+    html[data-returning="1"] .site {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    html[data-returning="1"] [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    /* =========================================================
+       5. PROFILE HERO
+       ========================================================= */
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: min(100% - 40px, 860px);
+      margin: 0 auto;
+      padding: clamp(38px, 8vw, 84px) 0 34px;
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Landscape original photo, framed without cropping or stretching. */
+    .portrait {
+      position: relative;
+      width: min(100%, 712px);
+      margin: 0;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(150deg, #0b0b0b 0%, #010101 72%);
+      box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.85),
+        inset 0 0 0 1px #101010;
+      transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s var(--ease);
+    }
+
+    /* Small corner details make the frame feel intentional and "noir". */
+    .portrait::before,
+    .portrait::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 1px solid var(--line-strong);
+      pointer-events: none;
+      transition: border-color 0.4s ease;
+    }
+
+    .portrait::before {
+      top: -1px;
+      left: -1px;
+      border-right: 0;
+      border-bottom: 0;
+      border-top-left-radius: 24px;
+    }
+
+    .portrait::after {
+      right: -1px;
+      bottom: -1px;
+      border-top: 0;
+      border-left: 0;
+      border-bottom-right-radius: 24px;
+    }
+
+    .portrait:hover {
+      border-color: #343434;
+      box-shadow:
+        0 0 46px rgba(160, 160, 160, 0.11),
+        0 34px 100px rgba(0, 0, 0, 0.92);
+      transform: translateY(-2px);
+    }
+
+    .portrait:hover::before,
+    .portrait:hover::after {
+      border-color: #4a4a4a;
+    }
+
+    .portrait img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 16px;
+      background: var(--black);
+    }
+
+    .identity {
+      width: min(100%, 620px);
+      margin-top: 30px;
+    }
+
+    .handle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 12px 0 0;
+      padding: 6px 12px;
+      border: 1px solid #1c1c1c;
+      border-radius: 999px;
+      background: rgba(5, 5, 5, 0.8);
+      color: var(--text-soft);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+    }
+
+    .handle__dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #7a7a7a;
+      box-shadow: 0 0 9px rgba(201, 201, 201, 0.28);
+      animation: soft-pulse 4.5s ease-in-out infinite;
+    }
+
+    @keyframes soft-pulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .name {
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(2.55rem, 8vw, 4rem);
+      font-weight: 500;
+      letter-spacing: -0.045em;
+      line-height: 1.05;
+    }
+
+    .bio {
+      max-width: 46ch;
+      margin: 13px auto 0;
+      color: var(--text-soft);
+      font-family: var(--font-arabic);
+      font-size: clamp(0.88rem, 2.5vw, 0.98rem);
+      font-weight: 300;
+      letter-spacing: 0.005em;
+      line-height: 1.85;
+    }
+
+    /* =========================================================
+       6. BOTS
+       ========================================================= */
+    .bots {
+      margin-top: clamp(54px, 10vw, 82px);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      margin: 0 0 5px;
+      color: var(--text-dim);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      margin: 0;
+      color: var(--text);
+      font-size: 1.42rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .section-note {
+      margin: 0 0 4px;
+      color: var(--text-dim);
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+      text-align: right;
+    }
+
+    .bot-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .bot {
+      position: relative;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      align-items: center;
+      gap: 14px;
+      padding: 17px 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(155deg, #0a0a0a 0%, #030303 100%);
+      color: var(--text);
+      text-decoration: none;
+      transition:
+        border-color 0.34s ease,
+        background 0.34s ease,
+        box-shadow 0.34s ease,
+        transform 0.34s var(--ease);
+    }
+
+    .bot:hover {
+      border-color: #343434;
+      background: linear-gradient(155deg, #0d0d0d 0%, #040404 100%);
+      box-shadow: 0 0 32px rgba(160, 160, 160, 0.075);
+      transform: translateY(-2px);
+    }
+
+    .bot:active {
+      transform: translateY(0);
+    }
+
+    .bot__icon {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 1px solid #242424;
+      border-radius: 12px;
+      background: #050505;
+      color: var(--text);
+      transition: border-color 0.34s ease, color 0.34s ease, background 0.34s ease;
+    }
+
+    .bot:hover .bot__icon {
+      border-color: #3d3d3d;
+      background: #080808;
+      color: #d2d2d2;
+    }
+
+    .bot__icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .bot__body {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .bot__index {
+      margin-bottom: 2px;
+      color: var(--text-dim);
+      font-size: 0.56rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .bot__id {
+      overflow: hidden;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.005em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .bot__open {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 4px;
+      color: var(--text-soft);
+      font-size: 0.66rem;
+      letter-spacing: 0.06em;
+      transition: color 0.3s ease;
+    }
+
+    .bot__open svg {
+      width: 12px;
+      height: 12px;
+      transition: transform 0.3s var(--ease);
+    }
+
+    .bot:hover .bot__open {
+      color: var(--text);
+    }
+
+    .bot:hover .bot__open svg {
+      transform: translate(2px, -2px);
+    }
+
+    /* =========================================================
+       7. FOOTER
+       ========================================================= */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: clamp(52px, 9vw, 78px);
+      padding-top: 22px;
+      border-top: 1px solid #141414;
+      color: var(--text-faint);
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer__sep {
+      color: #3d3d3d;
+    }
+
+    /* =========================================================
+       8. RESPONSIVE
+       ========================================================= */
+    @media (max-width: 700px) {
+      .shell {
+        width: min(100% - 32px, 860px);
+      }
+
+      .portrait {
+        padding: 7px;
+        border-radius: 20px;
+      }
+
+      .portrait img {
+        border-radius: 13px;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .section-note {
+        text-align: left;
+      }
+
+      .bot-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .gate {
+        padding: 18px;
+      }
+
+      .gate__panel {
+        padding: 34px 22px 24px;
+        border-radius: 20px;
+      }
+
+      /* 16px prevents iOS from zooming in when the field is focused. */
+      .field__input {
+        font-size: 16px;
+      }
+
+      .bot {
+        grid-template-columns: 40px minmax(0, 1fr);
+        gap: 12px;
+        padding: 15px;
+      }
+
+      .bot__icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .footer__sep {
+        display: none;
+      }
+    }
+
+    /* Respect users who prefer no motion. */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .gate__panel.is-error {
+        animation: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- =======================================================
+       PASSWORD GATE
+       ======================================================= -->
+  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <div class="gate__panel" id="gate-panel">
+      <p class="gate__mark">FFQPU / Private</p>
+      <h1 class="gate__title" id="gate-title">Private access</h1>
+      <p class="gate__note">Enter the password to continue.</p>
+
+      <form id="gate-form" novalidate>
+        <label class="sr-only" for="password">Password</label>
+        <div class="field">
+          <input
+            class="field__input"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            autocapitalize="off"
+            spellcheck="false"
+            aria-describedby="gate-error"
+            required
+            autofocus
+          />
+          <button class="field__toggle" id="toggle-password" type="button" aria-label="Show password">Show</button>
+        </div>
+
+        <p class="gate__error" id="gate-error" role="alert" aria-live="polite"></p>
+        <button class="gate__button" type="submit">Unlock</button>
+      </form>
+
+      <p class="gate__footer">@FFQPU &middot; Restricted</p>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       PROFILE SITE
+       ======================================================= -->
+  <div class="site" id="site" aria-hidden="true">
+    <main class="shell">
+      <header class="profile">
+        <!-- The supplied image is embedded as a data URI so the page stays a single file. -->
+        <figure class="portrait" data-reveal style="--i: 0">
+          <img
+            id="profile-photo"
+            src="data:image/jpeg;base64,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"
+            alt="Profile picture of @FFQPU"
+            width="690"
+            height="330"
+            decoding="async"
+          />
+        </figure>
+
+        <div class="identity">
+          <h1 class="name" id="display-name" data-reveal style="--i: 1" dir="auto">Saw</h1>
+          <p class="handle" data-reveal style="--i: 2">
+            <span class="handle__dot" aria-hidden="true"></span>
+            <span id="username">@FFQPU</span>
+          </p>
+          <p class="bio" id="bio" data-reveal style="--i: 3" dir="auto">Beware my silence more than my anger.</p>
+        </div>
+      </header>
+
+      <section class="bots" aria-labelledby="bots-title">
+        <div class="section-head" data-reveal style="--i: 4">
+          <div>
+            <p class="eyebrow">Telegram</p>
+            <h2 class="section-title" id="bots-title">Bots</h2>
+          </div>
+          <p class="section-note">Select a bot to open it in Telegram.</p>
+        </div>
+
+        <!-- Bot cards are generated from the BOTS array in the script. -->
+        <div class="bot-grid" id="bot-grid"></div>
+      </section>
+
+      <footer class="footer" data-reveal style="--i: 9">
+        <span>&copy; <span id="year">2026</span> @FFQPU</span>
+        <span class="footer__sep" aria-hidden="true">&mdash;</span>
+        <span>Noir profile</span>
+      </footer>
+    </main>
+  </div>
+
+  <noscript>
+    <p style="padding: 24px; color: #a0a0a0; text-align: center;">
+      JavaScript is required to unlock this profile.
+    </p>
+  </noscript>
+
+  <script>
+    "use strict";
+
+    /* =========================================================
+       CONFIGURATION — edit these values and publish.
+       ========================================================= */
+
+    /*
+     * PASSWORD
+     * Change this one value to set a new site password.
+     * Note: this is a client-side gate for presentation, not server-grade security.
+     */
+    const SITE_PASSWORD = "FFQPU";
+
+    /* Keep in sync with the key used in the <head> script. */
+    const STORAGE_KEY = "ffqpu:access:v1";
+
+    /*
+     * PROFILE
+     * Name and bio are taken from the public Telegram preview:
+     * https://t.me/FFQPU
+     *
+     * To use a different photo, paste a direct image URL into PHOTO_URL.
+     * Leave it empty to use the embedded original Pinterest image.
+     */
+    const PROFILE = {
+      displayName: "Saw",
+      username: "@FFQPU",
+      bio: "Beware my silence more than my anger.",
+      photoUrl: ""
+    };
+
+    /*
+     * BOTS
+     * Add, remove, or reorder entries here. The username is used for
+     * both the visible ID and the https://t.me/<username> link.
+     */
+    const BOTS = [
+      { label: "Bot 01", username: "FFQPU0bot" },
+      { label: "Bot 02", username: "SawPython_bot" },
+      { label: "Bot 03", username: "SSQXEbot" },
+      { label: "Bot 04", username: "FFQPU177bot" }
+    ];
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
+    const gate = document.getElementById("gate");
+    const gatePanel = document.getElementById("gate-panel");
+    const gateForm = document.getElementById("gate-form");
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("toggle-password");
+    const gateError = document.getElementById("gate-error");
+    const site = document.getElementById("site");
+    const profilePhoto = document.getElementById("profile-photo");
+    const displayName = document.getElementById("display-name");
+    const username = document.getElementById("username");
+    const bio = document.getElementById("bio");
+    const botGrid = document.getElementById("bot-grid");
+    const year = document.getElementById("year");
+
+    /* =========================================================
+       PROFILE + BOTS RENDERING
+       ========================================================= */
+
+    /** Small inline robot icon, drawn in the current text colour. */
+    const BOT_ICON = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="4" y="7" width="16" height="12" rx="4"></rect>
+        <path d="M12 3v4"></path>
+        <circle cx="9" cy="12.5" r="0.9" fill="currentColor" stroke="none"></circle>
+        <circle cx="15" cy="12.5" r="0.9" fill="currentColor" stroke="none"></circle>
+        <path d="M9 16.5h6"></path>
+      </svg>`;
+
+    /** Small diagonal arrow used by the "Open Bot" action. */
+    const ARROW_ICON = `
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 12 12 4"></path>
+        <path d="M6 4h6v6"></path>
+      </svg>`;
+
+    function renderProfile() {
+      displayName.textContent = PROFILE.displayName;
+      username.textContent = PROFILE.username;
+      bio.textContent = PROFILE.bio;
+      profilePhoto.alt = `Profile picture of ${PROFILE.username}`;
+
+      if (PROFILE.photoUrl) {
+        profilePhoto.src = PROFILE.photoUrl;
+      }
+    }
+
+    function renderBots() {
+      BOTS.forEach((bot, index) => {
+        const card = document.createElement("a");
+        card.className = "bot";
+        card.href = `https://t.me/${bot.username}`;
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+        card.dataset.reveal = "";
+        card.style.setProperty("--i", String(5 + index));
+        card.setAttribute("aria-label", `Open Bot ${bot.username} on Telegram`);
+
+        card.innerHTML = `
+          <span class="bot__icon" aria-hidden="true">${BOT_ICON}</span>
+          <span class="bot__body">
+            <span class="bot__index">${bot.label}</span>
+            <span class="bot__id">@${bot.username}</span>
+            <span class="bot__open">Open Bot ${ARROW_ICON}</span>
+          </span>`;
+
+        botGrid.appendChild(card);
+      });
+    }
+
+    /* =========================================================
+       PASSWORD GATE LOGIC
+       ========================================================= */
+    function showError(message) {
+      gateError.textContent = message;
+      gatePanel.classList.remove("is-error");
+      void gatePanel.offsetWidth; /* Restart the shake animation. */
+      gatePanel.classList.add("is-error");
+      passwordInput.setAttribute("aria-invalid", "true");
+    }
+
+    function clearError() {
+      gateError.textContent = "";
+      passwordInput.removeAttribute("aria-invalid");
+      gatePanel.classList.remove("is-error");
+    }
+
+    function unlockSite() {
+      clearError();
+      document.documentElement.dataset.auth = "1";
+
+      try {
+        sessionStorage.setItem(STORAGE_KEY, "granted");
+      } catch (error) {
+        /* The site still opens for this page view if storage is blocked. */
+      }
+
+      site.setAttribute("aria-hidden", "false");
+      site.classList.add("is-live");
+      gate.classList.add("is-leaving");
+
+      window.setTimeout(() => {
+        gate.hidden = true;
+      }, 600);
+    }
+
+    gateForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!passwordInput.value) {
+        showError("Enter the password to continue.");
+        passwordInput.focus();
+        return;
+      }
+
+      if (passwordInput.value === SITE_PASSWORD) {
+        unlockSite();
+        return;
+      }
+
+      showError("Incorrect password. Try again.");
+      passwordInput.select();
+      passwordInput.focus();
+    });
+
+    passwordInput.addEventListener("input", clearError);
+
+    togglePassword.addEventListener("click", () => {
+      const isHidden = passwordInput.type === "password";
+      passwordInput.type = isHidden ? "text" : "password";
+      togglePassword.textContent = isHidden ? "Hide" : "Show";
+      togglePassword.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+      passwordInput.focus();
+    });
+
+    /* =========================================================
+       BOOT
+       ========================================================= */
+    renderProfile();
+    renderBots();
+    year.textContent = String(new Date().getFullYear());
+
+    const returning = document.documentElement.dataset.returning === "1";
+    if (returning) {
+      site.classList.add("is-live");
+      site.setAttribute("aria-hidden", "false");
+      gate.hidden = true;
+    } else {
+      /* Focus the field once the browser has painted the gate. */
+      window.setTimeout(() => passwordInput.focus({ preventScroll: true }), 150);
+    }
+  </script>
+</body>
+</html>
